@@ -1,5 +1,6 @@
 package com.threedgarden.api.controller;
 
+import com.threedgarden.api.dto.CharacteristicsRequest;
 import com.threedgarden.api.model.Products;
 import com.threedgarden.api.service.ProductsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,5 +41,17 @@ public class ProductsController {
     @PutMapping(path="{productId}")
     public Products updateProductById(@PathVariable("productId")Long id, @RequestBody Products product){
         return productsService.updateProduct(id,product);
+    }
+
+    // add characteristic to a product
+    @PostMapping(path="{productId}/add-characteristics")
+    public Products addCharacteristicsProduct(@PathVariable("productId") long id, @RequestBody CharacteristicsRequest characteristicsRequest){
+        return productsService.addCharacteristics(id, characteristicsRequest);
+    }
+
+    // update characteristic from a product
+    @PutMapping(path="{productId}/update-characteristics")
+    public Products updateCharacteristicsProduct(@PathVariable("productId") long id, @RequestBody CharacteristicsRequest characteristicsRequest){
+        return productsService.updateCharacteristics(id, characteristicsRequest);
     }
 }

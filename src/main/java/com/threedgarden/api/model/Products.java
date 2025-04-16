@@ -28,4 +28,8 @@ public class Products {
     @Lob
     @Column(nullable = false)
     private Byte image;
+
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "characteristics_id", referencedColumnName = "id")
+    private Characteristics characteristics;
 }

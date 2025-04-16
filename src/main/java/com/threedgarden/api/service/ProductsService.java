@@ -1,6 +1,9 @@
 package com.threedgarden.api.service;
 
+import com.threedgarden.api.dto.CharacteristicsRequest;
+import com.threedgarden.api.model.Characteristics;
 import com.threedgarden.api.model.Products;
+import com.threedgarden.api.repository.CharacteristicsRepository;
 import com.threedgarden.api.repository.ProductsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,9 +14,11 @@ import java.util.Optional;
 @Service
 public class ProductsService {
     private final ProductsRepository productsRepository;
+    private final CharacteristicsRepository characteristicsRepository;
 
-    public ProductsService(ProductsRepository productsRepository) {
+    public ProductsService(ProductsRepository productsRepository, CharacteristicsRepository characteristicsRepository) {
         this.productsRepository = productsRepository;
+        this.characteristicsRepository = characteristicsRepository;
     }
 
     @Autowired
@@ -62,5 +67,64 @@ public class ProductsService {
             product.setImage(productDetails.getImage());
         }
         return productsRepository.save(product);
+    }
+
+    public Products addCharacteristics(Long id, CharacteristicsRequest characteristicsRequest){
+        Products product = productsRepository.findById(id).orElseThrow(
+                ()-> new IllegalArgumentException("El producto con id" + id + " no se encontró")
+        );
+        Characteristics characteristics = new Characteristics();
+        if(characteristicsRequest.getHeight() != null){
+            characteristics.setHeight(characteristicsRequest.getHeight());
+        }
+        if(characteristicsRequest.getWidth() != null){
+            characteristics.setWidth(characteristicsRequest.getWidth());
+        }
+        if(characteristicsRequest.getDepth() != null){
+            characteristics.setDepth(characteristicsRequest.getDepth());
+        }
+        if(characteristicsRequest.getColor() != null){
+            characteristics.setColor(characteristicsRequest.getColor());
+        }
+        if(characteristicsRequest.getWeight() != null){
+            characteristics.setWeight(characteristicsRequest.getWeight());
+        }
+        if(characteristicsRequest.getMaterial_type() != null){
+            characteristics.setMaterial_type(characteristicsRequest.getMaterial_type());
+        }
+        characteristics.setProduct(product);
+        product.setCharacteristics(characteristics);
+        characteristicsRepository.save(characteristics);
+        return productsRepository.save(product);
+    }
+
+    public Products updateCharacteristics(Long id, CharacteristicsRequest characteristicsRequest) {
+        Products product = productsRepository.findById(id).orElseThrow(
+                () -> new IllegalArgumentException("El producto con id " + id + " no se encontró")
+        );
+        Characteristics characteristics = product.getCharacteristics();
+        if (characteristics == null) {
+            throw new IllegalArgumentException("El producto con id " + id + " no tiene características asociadas");
+        }
+        if (characteristicsRequest.getHeight() != null) {
+            characteristics.setHeight(characteristicsRequest.getHeight());
+        }
+        if (characteristicsRequest.getWidth() != null) {
+            characteristics.setWidth(characteristicsRequest.getWidth());
+        }
+        if (characteristicsRequest.getDepth() != null) {
+            characteristics.setDepth(characteristicsRequest.getDepth());
+        }
+        if (characteristicsRequest.getColor() != null) {
+            characteristics.setColor(characteristicsRequest.getColor());
+        }
+        if (characteristicsRequest.getWeight() != null) {
+            characteristics.setWeight(characteristicsRequest.getWeight());
+        }
+        if (characteristicsRequest.getMaterial_type() != null) {
+            characteristics.setMaterial_type(characteristicsRequest.getMaterial_type());
+        }
+        characteristicsRepository.save(characteristics);
+        return product;
     }
 }
