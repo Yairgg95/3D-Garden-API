@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 @Entity
 @Table(name = "products")
 @NoArgsConstructor
@@ -28,4 +30,7 @@ public class Products {
     @Lob
     @Column(nullable = false)
     private Byte image;
+
+   @OneToMany(mappedBy = "product")
+   private List<Inventory> inventories;
 }

@@ -20,16 +20,16 @@ public class Inventory {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false, unique = true)
     private Long id;
-    @Column(name="type_movement", nullable = false)
-    private String typeMovement;
+    @Column(name="status", nullable = false)
+    private String status;
     @Column(nullable = false)
     private int quantity;
     @Column(name="registration_date", nullable = false)
     private LocalDate registrationDate;
 
-    //@ManyToOne
-    //@JoinColumn(name="product_id", nullable = false)
-    //private Products product;
+    @ManyToOne
+    @JoinColumn(name="product_id", nullable = false)
+    private Products product;
 
 
 }//cierre

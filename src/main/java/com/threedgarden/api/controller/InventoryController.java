@@ -8,36 +8,39 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/inventories") //http://localhost:8080/api/inventories
+@RequestMapping(path = "/api/inventories") //http://localhost:8080/api/inventories
 public class InventoryController {
+    private final InventoryService inventoryService;
 
     @Autowired
-    private InventoryService inventoryService;
+    public InventoryController(InventoryService inventoryService){
+        this.inventoryService = inventoryService;
+    }
 
     @GetMapping
     public List<Inventory> getAllInventories() {
         return inventoryService.getAllInventories();
     }
 
-    @GetMapping("/{id}")
-    public Inventory getInventoryById(@PathVariable Long id) {
-        return inventoryService.getInventoryById(id).orElse(null);
+    @GetMapping(path = "/{id}")
+    public Inventory getInventoryById(@PathVariable("id") Long id) {
+        return inventoryService.getInventoryById(id);
     }
 
     @PostMapping
-    public Inventory createInventory(@RequestBody Inventory inventory) {
-        return inventoryService.saveInventory(inventory);
+    public Inventory addInventory(@RequestBody Inventory inventory) {
+        return inventoryService.addInventory(inventory);
     }
 
-    @DeleteMapping("/{id}")
-    public void deleteInventory(@PathVariable Long id) {
-        inventoryService.deleteInventory(id);
+    @DeleteMapping(path = "/{id}")
+    public Inventory deleteInventoryById(@PathVariable("id")Long id) {
+        return inventoryService.deleteInventoryById(id);
     }
 
-
-
-
-
+    @PutMapping("/{id}")
+    public Inventory updateInventory(@PathVariable Long id, @RequestBody Inventory inventory) {
+        return inventoryService.updateInventory(id, inventory);
+    }
 
 
 }//cierre
