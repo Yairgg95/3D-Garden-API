@@ -1,41 +1,37 @@
 package com.threedgarden.api.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.List;
-
 @Entity
-@Table(name = "products")
+@Table(name = "characteristics")
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
-public class Products {
+public class Characteristics {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false, unique = true)
     private Long id;
     @Column(nullable = false)
-    private String name;
+    private String material_type;
     @Column(nullable = false)
-    private String description;
+    private Double weight;
     @Column(nullable = false)
-    private Long price;
+    private Double width;
     @Column(nullable = false)
-    private Long stock;
-    @Lob
+    private Double height;
     @Column(nullable = false)
-    private Byte image;
+    private Double depth;
+    @Column(nullable = false)
+    private String color;
 
-    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "characteristics_id", referencedColumnName = "id")
-    private Characteristics characteristics;
-
-   @OneToMany(mappedBy = "product")
-   private List<Inventory> inventories;
-
+    @OneToOne(mappedBy = "characteristics")
+    @JsonIgnore
+    private Products product;
 }
