@@ -1,5 +1,6 @@
 package com.threedgarden.api.service;
 
+
 import com.threedgarden.api.dto.CharacteristicsRequest;
 import com.threedgarden.api.model.Characteristics;
 import com.threedgarden.api.model.Products;

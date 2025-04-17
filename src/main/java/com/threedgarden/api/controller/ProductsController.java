@@ -1,5 +1,6 @@
 package com.threedgarden.api.controller;
 
+
 import com.threedgarden.api.dto.CharacteristicsRequest;
 import com.threedgarden.api.model.Products;
 import com.threedgarden.api.service.ProductsService;
@@ -55,3 +56,4 @@ public class ProductsController {
         return productsService.updateCharacteristics(id, characteristicsRequest);
     }
 }
+

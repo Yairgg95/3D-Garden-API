@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 @Entity
 @Table(name = "products")
 @NoArgsConstructor
@@ -32,4 +34,8 @@ public class Products {
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "characteristics_id", referencedColumnName = "id")
     private Characteristics characteristics;
+
+   @OneToMany(mappedBy = "product")
+   private List<Inventory> inventories;
+
 }
