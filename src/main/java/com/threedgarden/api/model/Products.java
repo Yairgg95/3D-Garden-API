@@ -1,5 +1,6 @@
 package com.threedgarden.api.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -32,5 +33,6 @@ public class Products {
     private Byte image;
 
    @OneToMany(mappedBy = "product")
+   @JsonIgnore //para evitar recursion infinita si devuelves el producto
    private List<Inventory> inventories;
 }

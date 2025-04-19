@@ -27,7 +27,8 @@ public class Inventory {
     @Column(name="registration_date", nullable = false)
     private LocalDate registrationDate;
 
-    @ManyToOne
+
+    @ManyToOne(fetch = FetchType.EAGER) //Para que cargue el producto completo
     @JoinColumn(name="product_id", nullable = false)
     private Products product;
 
