@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+    <link rel="stylesheet" href="../styles.css" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jockey+One&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bangers&family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&family=Roboto+Flex:opsz,wght@8..144,100..1000&family=Roboto:wght@400;700;900&display=swap">
+    <link rel="icon" href="../assets/meta-logo.png">
+    <title>Gracias por tu compra</title>
+  </head>
+  <body id="container-grid">
+    <header id="navbar-container" class="fixed-top"></header>
+    
+    <!--Dentro de aqui voy a trabajar-->
+  <main class="container-lg pt-5" id="marco">
+            <!-- Título principal -->
+  <div class="bg-green-opacity mt-5">
+    <h1 class="text-center display-1 d-none d-sm-block jockey">Confirmación de pedido</h1>
+    <h1 class="text-center display-5 d-block d-sm-none jockey">Confirmación de pedido</h1>
+  </div>
+    
+        <!-- Contenedor principal -->
+    <div class="container confirmation-container">
+      <!-- Imagen en el centro arriba -->
+      <img src="../assets/image 59.png" alt="Imagen de confirmación" class="confirmation-image">
+
+      <!-- Botones -->
+      <div class="button-container">
+        <a type="button" href="./products.html" class="btn btn-success w-100 roboto-flex">Ver más productos</a>
+          
+            <!-- Modal -->
+            <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h1 class="modal-title fs-5 roboto-flex" id="staticBackdropLabel">Detalles de tu pedido</h1>
+                    <button type="button" class="btn-close btn-custom-color" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-dialog modal-dialog-scrollable">
+                    ...
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary roboto-flex btn btn-custom-color rounded-pill text-white text-decoration-none" data-bs-dismiss="modal">Cerrar</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+        <a type="button" data-bs-toggle="modal" data-bs-target="#staticBackdrop" class="btn btn-success w-100 roboto-flex">Ver detalles del pedido</a>
+  </main>
+    <!-- Mensaje de agradecimiento -->
+  <div class="bg-green-opacity">
+    <h2 class="text-center display-1 d-none d-sm-block thank-you-message jockey">¡Gracias por tu compra!</h2>
+    <h2 class="text-center display-5 d-block d-sm-none thank-you-message jockey">¡Gracias por tu compra!</h2>
+  </div>
+  <!---Termino thank-you-->
+  
+    <footer id="footer-container"></footer>
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+      crossorigin="anonymous"
+    ></script>
+    <script src="../js/navbar.js"></script>
+    <script src="../js/footer.js"></script>
+    <!-- <script src="./js/logica-de-la-pagina"></script> -->
+     <script src='../js/thank-you.js'></script>
+  </body>
+</html>

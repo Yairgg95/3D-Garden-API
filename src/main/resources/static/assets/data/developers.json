@@ -1,0 +1,52 @@
+{
+    "developers": [
+        {
+            "name": "Enrique García Molina",
+            "bio": "Mi objetivo es seguir creciendo como desarrollador, especializándome en tecnologías backend y análisis de datos, aportando valor a empresas que busquen innovación y optimización en sus procesos.",
+            "rol": "Fullstack Developer",
+            "img": "../assets/enrique.garcia.jpeg",
+            "linkedin": "https://www.linkedin.com/in/gmenrique141/",
+            "github": ""
+        },
+        {
+            "name": "Luis Miguel Vera",
+            "bio": "Un entusiasta del desarrollo de software, actualmente enfocado al desarrollo web full stack e Ing. de Telecom, sistemas y electrónica. Siempre buscando aprender nuevas tecnologías para brindar las mejores soluciones.",
+            "rol": "Fullstack Developer",
+            "img": "../assets/luis.vera.jpeg",
+            "linkedin": "https://www.linkedin.com/in/lmvc-dev",
+            "github": ""
+        },
+        {
+            "name": "Jaqueline Jesús León",
+            "bio": "Soy una desarrolladora con gran pasión por el mundo del desarrollo web, ayudo a crear soluciones tecnológicas eficientes y funcionales, combinando mi formación en desarrollo de software con una gran capacidad de aprendizaje y adaptación.",
+            "rol": "Fullstack Developer",
+            "img": "../assets/jaqueline.jesus.jpeg",
+            "linkedin": "https://www.linkedin.com/in/jaquelinejesusleon/",
+            "github": ""
+        },
+        {
+            "name": "Yair Godofredo Guadarrama Gonzaga",
+            "bio": "Desarrollo soluciones web escalables y eficientes que mejoran la experiencia del usuario. Con experiencia en servicio al cliente y servicios financieros, combino conocimientos técnicos con habilidades de comunicación para lograr resultados impactantes.",
+            "rol": "Fullstack Developer",
+            "img": "../assets/yair.guadarrama.jpeg",
+            "linkedin": "https://www.linkedin.com/in/yair-guadarrama-gg95",
+            "github": "https://github.com/Yairgg95"
+        },
+        {
+            "name": "Joaquín Rodríguez Durán",
+            "bio": "Soy un desarrollador Fullstack Java e Ingeniero en Sistemas Computacionales con experiencia en soporte técnico y resolución de problemas en entornos en la nube.",
+            "rol": "Fullstack Developer",
+            "img": "../assets/joaquin.rodriguez.jpeg",
+            "linkedin": "https://www.linkedin.com/in/joaquin-rdz/ ",
+            "github": "https://github.com/JoaquinRodriguezD"
+        },
+        {
+            "name": "Frida Mercado",
+            "bio": "Además de desarrolladora, soy ing en energía y desarrollo sustentable certificada en ciberseguridad, lo que me permite abordar de manera integral los desafíos tecnológicos y ambientales de nuestro tiempo, ofreciendo soluciones con perspectivas que abordan seguridad informática y sustentabilidad.",
+            "rol": "Fullstack Developer",
+            "img": "../assets/frida.mercado.jpeg",
+            "linkedin": "https://www.linkedin.com/in/fridamercado/",
+            "github": "https://github.com/FridaMercado"
+        }
+    ]
+}

@@ -1,0 +1,29 @@
+{
+    "story": [
+        {
+            "date": "Marzo 2024",
+            "description":"Todo empezó con nuestro pequeño negocio de plantas.",
+            "img":"../assets/marzo2024.jpg"
+        },
+        {
+            "date": "Enero 2025",
+            "description":"Nos dimos cuenta que las macetas que vendíamos eran muy comúnes y aburridas.",
+            "img":"../assets/enero2025.jpg"
+        },
+        {
+            "date": "Febrero 2025",
+            "description":"Un regalo de cumpleaños nos dió una idea ",
+            "img":"../assets/febrero2025.jpg"
+        },
+        {
+            "date": "Febrero 2025",
+            "description":"Nuestra primera maceta impresa en 3D",
+            "img":"../assets/febrero2025_2.jpg"
+        },
+        {
+            "date": "Marzo 2025",
+            "description":"Ampliamos nuestra fábrica con más impresoras y creamos este sitio web para que llegue a los ojos de todos.",
+            "img":"../assets/marzo2025.png"
+        }
+    ]
+}
