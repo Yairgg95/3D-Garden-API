@@ -36,8 +36,12 @@ public class Products {
     @JoinColumn(name = "characteristics_id", referencedColumnName = "id")
     private Characteristics characteristics;
 
-   @OneToMany(mappedBy = "product")
-   @JsonIgnore //para evitar recursion infinita si devuelves el producto
-   private List<Inventory> inventories;
+    @OneToMany(mappedBy = "product")
+    @JsonIgnore //para evitar recursion infinita si devuelves el producto
+    private List<Inventory> inventories;
+
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
+    @JsonIgnore
+    private List<ProductCategoryLink> productCategories;
 
 }
