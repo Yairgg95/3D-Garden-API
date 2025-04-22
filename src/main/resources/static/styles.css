@@ -399,7 +399,8 @@ Shopping cart review
   text-align: center;
 } */
 
-/* LOGIN - Estilos del carrusel */
+/*--------------LOGIN----------------------*/
+
 .carousel {
   max-width: 450px; /* Ancho máximo del carrusel */
   margin: auto; /* Centrar el carrusel */
@@ -420,21 +421,125 @@ Shopping cart review
 
 
 .login-container{
-  margin: 2em;
-  padding: 2em;
-  background-color: #C5EBE8 !important; /* Fondo azul */
+  margin: 0em;
+  padding: 5em;
+/*background-color: #C5EBE8 !important; /* Fondo azul */
   border-radius: 10px;
-  
+  margin-top: -2em;  
 }
 
-.login-container p {
-  font-size: 30px;
+@media (max-width: 768px) {
+  .login-container {
+    padding: 2em; /* Reduce el padding en pantallas más pequeñas */
+    margin-top: -1em; /* Ajusta el margen superior */
+  }
+}
+@media (max-width: 576px) {
+  .login-container {
+    padding: 1em; /* Reduce aún más el padding en pantallas muy pequeñas */
+    margin-top: -0.5em; /* Ajusta el margen superior */
+  }
+}
+@media (max-width: 320px) {
+  .login-container {
+    padding: 0.5em; /* Reduce aún más el padding en pantallas muy pequeñas */
+    margin-top: -0.5em; /* Ajusta el margen superior */
+  }
 }
 
-.success {
-  color: #28a745; /* Verde para éxito */
+
+/* Estilos de texto responsivos */
+.responsive-title {
+  font-size: 3rem;
 }
 
-.border-success {
-  border-color: #28a745 !important; /* Borde verde */
+@media (max-width: 768px) {
+  .responsive-title {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .responsive-title {
+    font-size: 1.5rem;
+  }
+}
+
+.responsive-subtitle {
+  font-size: 1.5rem;
+}
+
+@media (max-width: 768px) {
+  .responsive-subtitle {
+    font-size: 1.2rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .responsive-subtitle {
+    font-size: 1rem;
+  }
+}
+
+.responsive-form {
+  font-size: 1.3rem;
+}
+@media (max-width: 920px) {
+  .responsive-form {
+    font-size: 1.1rem;
+  }
+}
+@media (max-width: 576px) {
+  .responsive-form {
+    font-size: 0.9rem;
+  }
+}
+@media (max-width: 320px){
+  .responsive-form {
+    font-size: 0.7rem;
+  }
+}
+
+/* Texto debajo del carrusel */
+.carousel-text {
+  font-size: 1.25rem;
+  text-align: center;
+  margin-top: 0.5rem;
+  color: #38454C;
+}
+
+@media (max-width: 768px) {
+  .carousel-text {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .carousel-text {
+    font-size: 0.9rem;
+  }
+}
+
+.login-intro-text {
+  font-size: 1.3rem;
+}
+
+@media (max-width: 768px) {
+  .login-intro-text {
+    font-size: 1.1rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .login-intro-text {
+    font-size: 0.95rem;
+  }
+}
+
+/* Estilo para titulo principal*/
+
+.titulo{
+  font-family: "Jockey One", sans-serif;
+  font-size: auto;
+  margin-top: -1em;
 }
