@@ -2,9 +2,13 @@ package com.threedgarden.api.service;
 
 
 import com.threedgarden.api.dto.CharacteristicsRequest;
+import com.threedgarden.api.model.Category;
 import com.threedgarden.api.model.Characteristics;
+import com.threedgarden.api.model.ProductCategoryLink;
 import com.threedgarden.api.model.Products;
+import com.threedgarden.api.repository.CategoryRepository;
 import com.threedgarden.api.repository.CharacteristicsRepository;
+import com.threedgarden.api.repository.ProductCategoryLinkRepository;
 import com.threedgarden.api.repository.ProductsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,10 +20,12 @@ import java.util.Optional;
 public class ProductsService {
     private final ProductsRepository productsRepository;
     private final CharacteristicsRepository characteristicsRepository;
+    private final ProductCategoryLinkRepository productCategoryLinkRepository;
 
-    public ProductsService(ProductsRepository productsRepository, CharacteristicsRepository characteristicsRepository) {
+    public ProductsService(ProductsRepository productsRepository, CharacteristicsRepository characteristicsRepository, ProductCategoryLinkRepository productCategoryLinkRepository) {
         this.productsRepository = productsRepository;
         this.characteristicsRepository = characteristicsRepository;
+        this.productCategoryLinkRepository = productCategoryLinkRepository;
     }
 
     @Autowired
@@ -127,5 +133,24 @@ public class ProductsService {
         }
         characteristicsRepository.save(characteristics);
         return product;
+    }
+
+    @Autowired
+    private CategoryRepository categoryRepository;
+
+    public Products addCategoryToProduct(Long productId, Long categoryId) {
+        Products product = productsRepository.findById(productId)
+                .orElseThrow(() -> new IllegalArgumentException("Producto no encontrado"));
+
+        Category category = categoryRepository.findById(categoryId)
+                .orElseThrow(() -> new IllegalArgumentException("Categoría no encontrada"));
+
+        ProductCategoryLink link = new ProductCategoryLink();
+        link.setProduct(product);
+        link.setCategory(category);
+
+        productCategoryLinkRepository.save(link);
+
+        return product; // Devuelve el producto ya asociado, si quieres puedes incluir también las categorías
     }
 }
