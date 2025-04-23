@@ -2,9 +2,11 @@ package com.threedgarden.api.controller;
 
 
 import com.threedgarden.api.dto.CharacteristicsRequest;
+import com.threedgarden.api.dto.ProductCategoryAssociationRequest;
 import com.threedgarden.api.model.Products;
 import com.threedgarden.api.service.ProductsService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -54,6 +56,14 @@ public class ProductsController {
     @PutMapping(path="{productId}/update-characteristics")
     public Products updateCharacteristicsProduct(@PathVariable("productId") long id, @RequestBody CharacteristicsRequest characteristicsRequest){
         return productsService.updateCharacteristics(id, characteristicsRequest);
+    }
+
+    @PostMapping("/{productId}/categories")
+    public ResponseEntity<String> addCategoriesToProduct(
+            @PathVariable Long productId,
+            @RequestBody ProductCategoryAssociationRequest request) {
+        productsService.addCategoriesToProduct(productId, request.getCategoryIds());
+        return ResponseEntity.ok("Categorías asociadas correctamente.");
     }
 }
 
