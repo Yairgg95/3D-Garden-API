@@ -153,4 +153,20 @@ public class ProductsService {
 
         return product; // Devuelve el producto ya asociado, si quieres puedes incluir también las categorías
     }
+
+    public void addCategoriesToProduct(Long productId, List<Long> categoryIds) {
+        Products product = productsRepository.findById(productId)
+                .orElseThrow(() -> new IllegalArgumentException("Producto no encontrado"));
+
+        for (Long categoryId : categoryIds) {
+            Category category = categoryRepository.findById(categoryId)
+                    .orElseThrow(() -> new IllegalArgumentException("Categoría con id " + categoryId + " no existe"));
+
+            ProductCategoryLink link = new ProductCategoryLink();
+            link.setProduct(product);
+            link.setCategory(category);
+
+            productCategoryLinkRepository.save(link);
+        }
+    }
 }
