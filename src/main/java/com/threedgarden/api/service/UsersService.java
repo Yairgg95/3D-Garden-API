@@ -4,8 +4,7 @@ package com.threedgarden.api.service;
 import com.threedgarden.api.dto.AddressRequest;
 import com.threedgarden.api.dto.OrderRequest;
 import com.threedgarden.api.model.Address;
-import com.threedgarden.api.model.Order;
-import com.threedgarden.api.model.OrderDetail;
+import com.threedgarden.api.model.OrderEntity;
 import com.threedgarden.api.model.Users;
 import com.threedgarden.api.repository.AddressRepository;
 import com.threedgarden.api.repository.OrderRepository;
@@ -103,14 +102,14 @@ public class UsersService {
     public Users addUsersOrder(Long id,OrderRequest orderRequest){
         Users user = getUserById(id);
 
-        Order order = new Order();
-        order.setStatus(orderRequest.getStatus());
-        order.setDate(orderRequest.getDate());
-        order.setTotal(orderRequest.getTotal());
-        order.setUser(user);
+        OrderEntity orderEntity = new OrderEntity();
+        orderEntity.setStatus(orderRequest.getStatus());
+        orderEntity.setOrderDate(orderRequest.getDate());
+        orderEntity.setTotal(orderRequest.getTotal());
+        orderEntity.setUser(user);
 
-        orderRepository.save(order);
-        user.getOrders().add(order);
+        orderRepository.save(orderEntity);
+        user.getOrderEntities().add(orderEntity);
 
         return user;
     }

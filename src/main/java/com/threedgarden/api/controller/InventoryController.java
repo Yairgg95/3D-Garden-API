@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping(path = "/api/inventories/") //http://localhost:8080/api/inventories
+@RequestMapping(path = "/api/inventories") //http://localhost:8080/api/inventories
 public class InventoryController {
     private final InventoryService inventoryService;
 

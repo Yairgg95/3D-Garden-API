@@ -32,34 +32,8 @@ public class InventoryService {
 
     public Inventory addInventory(Inventory inventory){
         Products product = inventory.getProduct();
-
-        if (product == null || product.getId() == null){
-            throw new RuntimeException("Debe especificarse un producto válido para registrar el inventario.");
-        }
-
         Optional<Products> optionalProduct = productsRepository.findById(product.getId());
-
-        if(optionalProduct.isPresent()){
-            Products existingProduct = optionalProduct.get();
-
-            if("entrada".equalsIgnoreCase(inventory.getStatus())){
-                existingProduct.setStock(existingProduct.getStock() + inventory.getQuantity());
-            }else if ("salida".equalsIgnoreCase(inventory.getStatus())){
-                if (existingProduct.getStock() < inventory.getQuantity()){
-                    throw new RuntimeException("No hay suficiente stock para realizar la salida.");
-                }
-                existingProduct.setStock(existingProduct.getStock() - inventory.getQuantity());
-
-            }else {
-                throw new RuntimeException("El tipo de movimiento debe ser 'entrada' o 'salida'.");
-            }
-
-            productsRepository.save(existingProduct);
-            return inventoryRepository.save(inventory);
-
-        } else {
-            throw new IllegalArgumentException("Producto con ID " + product.getId() + " no encontrado");
-        }
+        return inventoryRepository.save(inventory);
     }
 
     public Inventory deleteInventoryById(Long id) {
@@ -83,14 +57,6 @@ public class InventoryService {
 
         Products existingProduct = optionalProduct.get();
 
-        if ("entrada".equalsIgnoreCase(inventory.getStatus())) {
-            existingProduct.setStock(existingProduct.getStock() - inventory.getQuantity());
-        } else if ("salida".equalsIgnoreCase(inventory.getStatus())) {
-            existingProduct.setStock(existingProduct.getStock() + inventory.getQuantity());
-        } else {
-            throw new RuntimeException("El tipo de movimiento debe ser 'entrada' o 'salida'.");
-        }
-
         productsRepository.save(existingProduct);
         inventoryRepository.deleteById(id);
 
@@ -112,28 +78,11 @@ public class InventoryService {
         String oldStatus = existingInventory.getStatus();
         Integer oldQuantity = existingInventory.getQuantity();
 
-            if ("entrada".equalsIgnoreCase(oldStatus)) {
-                existingProduct.setStock(existingProduct.getStock() - oldQuantity);
-            } else if ("salida".equalsIgnoreCase(oldStatus)) {
-                existingProduct.setStock(existingProduct.getStock() + oldQuantity);
-            }
-
             String newStatus = inventory.getStatus();
             Integer newQuantity = inventory.getQuantity();
 
             if (newStatus == null || newQuantity == null){
                 throw new RuntimeException("Debe especificar un estatus y una cantidad.");
-            }
-
-            if ("entrada".equalsIgnoreCase(newStatus)) {
-                existingProduct.setStock(existingProduct.getStock() + newQuantity);
-            } else if ("salida".equalsIgnoreCase(newStatus)) {
-                if(existingProduct.getStock() < newQuantity){
-                    throw new RuntimeException("No hay suficiente stock para realizar la salida.");
-                }
-                existingProduct.setStock(existingProduct.getStock() - newQuantity);
-            }else {
-                throw new RuntimeException("El tipo de movimiento debe ser 'entrada' o 'salida'.");
             }
 
             existingInventory.setStatus(newStatus);

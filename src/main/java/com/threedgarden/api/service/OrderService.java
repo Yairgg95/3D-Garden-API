@@ -1,19 +1,11 @@
 package com.threedgarden.api.service;
 
-
-import com.threedgarden.api.dto.AddressRequest;
-import com.threedgarden.api.dto.OrderRequest;
-import com.threedgarden.api.model.Address;
-import com.threedgarden.api.model.Category;
-import com.threedgarden.api.model.Order;
-import com.threedgarden.api.model.Users;
+import com.threedgarden.api.model.OrderEntity;
 import com.threedgarden.api.repository.OrderRepository;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,20 +14,20 @@ import java.util.Optional;
 public class OrderService {
     @Autowired
     private final OrderRepository orderRepository;
-    public List<Order> getAllOrders() {
+    public List<OrderEntity> getAllOrders() {
         return orderRepository.findAll();
     }
 
-    public Optional<Order> getOrderById(Long id) {
+    public Optional<OrderEntity> getOrderById(Long id) {
         return orderRepository.findById(id);
     }
 
-    public Order addOrder(Order order) {
-        return orderRepository.save(order);
+    public OrderEntity addOrder(OrderEntity orderEntity) {
+        return orderRepository.save(orderEntity);
     }
 
-    public Order deleteOrderById(Long id) {
-        Order tmp = null;
+    public OrderEntity deleteOrderById(Long id) {
+        OrderEntity tmp = null;
         if (orderRepository.existsById(id)) {
             tmp = orderRepository.findById(id).get();
             orderRepository.deleteById(id);
@@ -44,16 +36,16 @@ public class OrderService {
         return tmp;
     }
 
-    public Order updateOrderById(Long id, Order orderInfo) {
-        Optional<Order> optionalOrder = orderRepository.findById(id);
+    public OrderEntity updateOrderById(Long id, OrderEntity orderEntityInfo) {
+        Optional<OrderEntity> optionalOrder = orderRepository.findById(id);
         if(optionalOrder.isEmpty()) throw new IllegalArgumentException("La categoría con id " + id + " no existe");
 
-        Order order = optionalOrder.get();
-        if(orderInfo.getDate() != null) order.setDate(orderInfo.getDate());
-        if(orderInfo.getTotal() != null) order.setTotal(orderInfo.getTotal());
-        if(orderInfo.getStatus()!= null) order.setStatus(orderInfo.getStatus());
+        OrderEntity orderEntity = optionalOrder.get();
+        if(orderEntityInfo.getOrderDate() != null) orderEntity.setOrderDate(orderEntityInfo.getOrderDate());
+        if(orderEntityInfo.getTotal() != null) orderEntity.setTotal(orderEntityInfo.getTotal());
+        if(orderEntityInfo.getStatus()!= null) orderEntity.setStatus(orderEntityInfo.getStatus());
 
-        return orderRepository.save(order);
+        return orderRepository.save(orderEntity);
     }
 //    @Transactional
 //    public Users addUsersOrder(Long id, OrderRequest orderRequest) {

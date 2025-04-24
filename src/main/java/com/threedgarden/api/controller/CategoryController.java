@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping(path = "/api/categories/") //http://localhost:8080/api/categories
+@RequestMapping(path = "/api/categories") //http://localhost:8080/api/categories
 public class CategoryController {
     private final CategoryService categoryService;
 

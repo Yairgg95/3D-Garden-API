@@ -46,6 +46,6 @@ public class Users {
     private List<Address> addresses;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Order> orders;
+    private List<OrderEntity> orderEntities;
 
 }

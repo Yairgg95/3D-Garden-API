@@ -1,18 +1,18 @@
 package com.threedgarden.api.service;
 
 
+import com.threedgarden.api.dto.CategoryRequest;
 import com.threedgarden.api.dto.CharacteristicsRequest;
-import com.threedgarden.api.model.Category;
-import com.threedgarden.api.model.Characteristics;
-import com.threedgarden.api.model.ProductCategoryLink;
-import com.threedgarden.api.model.Products;
-import com.threedgarden.api.repository.CategoryRepository;
-import com.threedgarden.api.repository.CharacteristicsRepository;
-import com.threedgarden.api.repository.ProductCategoryLinkRepository;
-import com.threedgarden.api.repository.ProductsRepository;
+import com.threedgarden.api.dto.InventoryRequest;
+import com.threedgarden.api.dto.OrderRequest;
+import com.threedgarden.api.model.*;
+import com.threedgarden.api.repository.*;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,10 +22,12 @@ public class ProductsService {
     private final CharacteristicsRepository characteristicsRepository;
     private final ProductCategoryLinkRepository productCategoryLinkRepository;
 
-    public ProductsService(ProductsRepository productsRepository, CharacteristicsRepository characteristicsRepository, ProductCategoryLinkRepository productCategoryLinkRepository) {
+    public ProductsService(ProductsRepository productsRepository, CharacteristicsRepository characteristicsRepository, ProductCategoryLinkRepository productCategoryLinkRepository,
+                           InventoryRepository inventoryRepository) {
         this.productsRepository = productsRepository;
         this.characteristicsRepository = characteristicsRepository;
         this.productCategoryLinkRepository = productCategoryLinkRepository;
+        this.inventoryRepository = inventoryRepository;
     }
 
     @Autowired
@@ -134,36 +136,59 @@ public class ProductsService {
 
     @Autowired
     private CategoryRepository categoryRepository;
+    private final InventoryRepository inventoryRepository;
 
-    public Products addCategoryToProduct(Long productId, Long categoryId) {
-        Products product = productsRepository.findById(productId)
-                .orElseThrow(() -> new IllegalArgumentException("Producto no encontrado"));
+    public Products addCategorytoProduct(Long productId, CategoryRequest categoryRequest){
+        Products product = productsRepository.findById(productId).orElseThrow(
+                ()-> new IllegalArgumentException("El producto con id" + productId + " no se encontró")
+        );
+        Category category = categoryRepository.findByName(categoryRequest.getName())
+                .orElseGet(() -> {
+                    Category newCategory = new Category();
+                    newCategory.setName(categoryRequest.getName());
+                    newCategory.setDescription(categoryRequest.getDescription());
+                    return categoryRepository.save(newCategory);
+                });
 
-        Category category = categoryRepository.findById(categoryId)
-                .orElseThrow(() -> new IllegalArgumentException("Categoría no encontrada"));
+        // Verificar que no exista ya ese vínculo
+        boolean alreadyLinked = product.getProductCategories().stream()
+                .anyMatch(link -> link.getCategory().getId().equals(category.getId()));
 
-        ProductCategoryLink link = new ProductCategoryLink();
-        link.setProduct(product);
-        link.setCategory(category);
-
-        productCategoryLinkRepository.save(link);
-
-        return product; // Devuelve el producto ya asociado, si quieres puedes incluir también las categorías
-    }
-
-    public void addCategoriesToProduct(Long productId, List<Long> categoryIds) {
-        Products product = productsRepository.findById(productId)
-                .orElseThrow(() -> new IllegalArgumentException("Producto no encontrado"));
-
-        for (Long categoryId : categoryIds) {
-            Category category = categoryRepository.findById(categoryId)
-                    .orElseThrow(() -> new IllegalArgumentException("Categoría con id " + categoryId + " no existe"));
-
+        if (!alreadyLinked) {
             ProductCategoryLink link = new ProductCategoryLink();
             link.setProduct(product);
             link.setCategory(category);
 
+            product.getProductCategories().add(link);
+            category.getProductCategories().add(link);
+
+            // Persistir la relación
             productCategoryLinkRepository.save(link);
         }
+
+        return productsRepository.save(product); // opcional, si necesitas el return actualizado
     }
+
+    public Products addInvetory(Long id, InventoryRequest inventoryRequest){
+        Products product = productsRepository.findById(id).orElseThrow(
+                ()-> new IllegalArgumentException("El producto con id" + id + " no se encontró")
+        );
+        Inventory newInventory = new Inventory();
+        if(inventoryRequest.getQuantity() != 0){
+            newInventory.setQuantity(inventoryRequest.getQuantity());
+        }
+        if(inventoryRequest.getStatus() != null){
+            newInventory.setStatus(inventoryRequest.getStatus());
+        }
+        if(inventoryRequest.getRegistrationDate() != null){
+            newInventory.setRegistrationDate(LocalDate.now());
+        }
+
+        newInventory.setProduct(product);
+        product.getInventories().add(newInventory);
+        inventoryRepository.save(newInventory);
+        return productsRepository.save(product);
+    }
+
+
 }
