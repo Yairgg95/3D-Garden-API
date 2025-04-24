@@ -3,6 +3,7 @@ package com.threedgarden.api.controller;
 
 import com.threedgarden.api.dto.CategoryRequest;
 import com.threedgarden.api.dto.CharacteristicsRequest;
+import com.threedgarden.api.dto.InventoryRequest;
 import com.threedgarden.api.dto.ProductCategoryAssociationRequest;
 import com.threedgarden.api.model.Products;
 import com.threedgarden.api.service.ProductsService;
@@ -64,6 +65,14 @@ public class ProductsController {
             @PathVariable Long productId,
             @RequestBody CategoryRequest categoryRequest) {
         Products updatedProduct = productsService.addCategorytoProduct(productId, categoryRequest);
+        return ResponseEntity.ok(updatedProduct);
+    }
+
+    @PostMapping("/{productId}/add-inventory")
+    public ResponseEntity<Products> addInventoryToProduct(
+            @PathVariable Long productId,
+            @RequestBody InventoryRequest inventoryRequest) {
+        Products updatedProduct = productsService.addIventorytoProduct(productId, inventoryRequest);
         return ResponseEntity.ok(updatedProduct);
     }
 }

@@ -1,5 +1,6 @@
 package com.threedgarden.api.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -19,6 +20,7 @@ public class ProductCategoryLink {
 
     @ManyToOne
     @JoinColumn(name = "product_id")
+    @JsonBackReference(value = "product-categories")
     private Products product;
 
     @ManyToOne
