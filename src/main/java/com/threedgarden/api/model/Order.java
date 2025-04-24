@@ -1,77 +1,33 @@
 package com.threedgarden.api.model;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-
-import java.time.LocalDateTime;
+import lombok.*;
+import java.time.LocalDate;
 import java.util.List;
 
+@Getter
+@Setter
 @Entity
-@Table(name = "orders")
+@Table(name = "order")
 public class Order {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long orderId;
-
-    private LocalDateTime orderDate;
-
+    @Column(name = "id", nullable = false, unique = true)
+    private Long id;
+    @Column(nullable = false)
+    private LocalDate date;
+    @Column(nullable = false)
+    private Double total;
+    @Column(nullable = false)
     private String status;
 
-    private Integer totalAmount;
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private Users user;
 
-    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JsonIgnore
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     private List<OrderDetail> orderDetails;
 
 
-    public Order() {
-    }
 
-    public Order(LocalDateTime orderDate, String status, Integer totalAmount) {
-        this.orderDate = orderDate;
-        this.status = status;
-        this.totalAmount = totalAmount;
-    }
-
-    // Getters y Setters
-    public Long getOrderId() {
-        return orderId;
-    }
-
-    public void setOrderId(Long orderId) {
-        this.orderId = orderId;
-    }
-
-    public LocalDateTime getOrderDate() {
-        return orderDate;
-    }
-
-    public void setOrderDate(LocalDateTime orderDate) {
-        this.orderDate = orderDate;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public Integer getTotalAmount() {
-        return totalAmount;
-    }
-
-    public void setTotalAmount(Integer totalAmount) {
-        this.totalAmount = totalAmount;
-    }
-
-    public List<OrderDetail> getOrderDetails() {
-        return orderDetails;
-    }
-
-    public void setOrderDetails(List<OrderDetail> orderDetails) {
-        this.orderDetails = orderDetails;
-    }
 }
-

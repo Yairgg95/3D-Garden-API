@@ -2,9 +2,13 @@ package com.threedgarden.api.service;
 
 
 import com.threedgarden.api.dto.AddressRequest;
+import com.threedgarden.api.dto.OrderRequest;
 import com.threedgarden.api.model.Address;
+import com.threedgarden.api.model.Order;
+import com.threedgarden.api.model.OrderDetail;
 import com.threedgarden.api.model.Users;
 import com.threedgarden.api.repository.AddressRepository;
+import com.threedgarden.api.repository.OrderRepository;
 import com.threedgarden.api.repository.UsersRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +26,7 @@ public class UsersService {
     private final UsersRepository usersRepository;
     private final AddressRepository addressRepository;
     private final PasswordEncoder passwordEncoder;
+    private final OrderRepository orderRepository;
 
     public List<Users> getAllUsers() {
         return usersRepository.findAll();
@@ -90,6 +95,22 @@ public class UsersService {
         if(!passwordEncoder.matches(password, user.getPassword())) {
             throw new RuntimeException("Invalid data");
         }
+
+        return user;
+    }
+
+    @Transactional
+    public Users addUsersOrder(Long id,OrderRequest orderRequest){
+        Users user = getUserById(id);
+
+        Order order = new Order();
+        order.setStatus(orderRequest.getStatus());
+        order.setDate(orderRequest.getDate());
+        order.setTotal(orderRequest.getTotal());
+        order.setUser(user);
+
+        orderRepository.save(order);
+        user.getOrders().add(order);
 
         return user;
     }

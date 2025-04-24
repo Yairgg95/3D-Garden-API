@@ -7,7 +7,7 @@ import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
-public interface OrderDetailRepository extends JpaRepository<OrderDetail, Integer> {
+public interface OrderDetailRepository extends JpaRepository<OrderDetail, Long> {
     @Query("SELECT od FROM OrderDetail od WHERE od.order.orderId = :orderId")
     List<OrderDetail> findByOrder_OrderId(@Param("orderId") Long orderId);
 }

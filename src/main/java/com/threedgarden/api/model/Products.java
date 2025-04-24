@@ -7,9 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.List;
-
-@Entity
+import java.util.List;@Entity
 @Table(name = "products")
 @NoArgsConstructor
 @AllArgsConstructor
@@ -26,8 +24,6 @@ public class Products {
     private String description;
     @Column(nullable = false)
     private Long price;
-    @Column(nullable = false)
-    private Long stock;
     @Lob
     @Column(nullable = false)
     private Byte image;
@@ -44,4 +40,10 @@ public class Products {
     @JsonIgnore
     private List<ProductCategoryLink> productCategories;
 
+    @OneToMany(mappedBy = "product")
+    @JsonIgnore
+    private List<OrderDetail> orderDetails;
+
 }
+
+
