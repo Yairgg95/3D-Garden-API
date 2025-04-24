@@ -39,13 +39,19 @@ document.addEventListener("DOMContentLoaded", () => {
       const user = await response.json();
 
       if (response.ok && user.registrationDate) {
-        localStorage.setItem("token", JSON.stringify(user.registrationDate));
-        if (user.role === "admin") {
-          localStorage.setItem("adminToken", JSON.stringify(user.registrationDate));
-        }
-        alert("Inicio de sesión exitoso");
-        window.location.href = "./products.html";
-      } else {
+              localStorage.setItem("user", JSON.stringify(user));
+
+              if (user.role === "admin") {
+                localStorage.setItem(
+                  "adminToken",
+                  JSON.stringify(user.registrationDate)
+                );
+                window.location.href = "./management.html";
+              } else {
+                localStorage.setItem("token", JSON.stringify(user.registrationDate));
+                window.location.href = "./products.html";
+              }
+            } else {
         showError(emailInput, "Credenciales incorrectas", "danger");
         showError(passwordInput, "Credenciales incorrectas", "danger");
       }
