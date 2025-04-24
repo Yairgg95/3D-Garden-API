@@ -44,7 +44,7 @@ document.addEventListener("DOMContentLoaded", () => {
           localStorage.setItem("adminToken", JSON.stringify(user.registrationDate));
         }
         alert("Inicio de sesión exitoso");
-        window.location.href = "../index.html";
+        window.location.href = "./products.html";
       } else {
         showError(emailInput, "Credenciales incorrectas", "danger");
         showError(passwordInput, "Credenciales incorrectas", "danger");
