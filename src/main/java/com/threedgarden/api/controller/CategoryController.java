@@ -21,22 +21,22 @@ public class CategoryController {
     }
 
     @GetMapping
-    public List<Category> getAllInventories() {
+    public List<Category> getAllCategories() {
         return categoryService.getAllCategories();
     }
 
     @GetMapping(path = "/{id}")
-    public Category getInventoryById(@PathVariable("id") Long id) {
+    public Category getCategoryById(@PathVariable("id") Long id) {
         return categoryService.getCategoryById(id);
     }
 
     @PostMapping
-    public Category addInventory(@RequestBody Category category) {
+    public Category addCategory(@RequestBody Category category) {
         return categoryService.addCategory(category);
     }
 
     @DeleteMapping(path = "/{id}")
-    public ResponseEntity<?> deleteInventoryById(@PathVariable("id")Long id){
+    public ResponseEntity<?> deleteCategoryById(@PathVariable("id")Long id){
         try {
             Category deletedCategory = categoryService.deleteCategoryById(id);
             return ResponseEntity.ok(deletedCategory);

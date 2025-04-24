@@ -4,62 +4,46 @@ import com.threedgarden.api.model.Order;
 import com.threedgarden.api.model.OrderDetail;
 import com.threedgarden.api.repository.OrderDetailRepository;
 import com.threedgarden.api.repository.OrderRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class OrderDetailService {
-    private final OrderDetailRepository orderDetailRepository;
-    private final OrderRepository orderRepository;
-
 
     @Autowired
-    public OrderDetailService(OrderDetailRepository orderDetailRepository, OrderRepository orderRepository) {
-        this.orderDetailRepository = orderDetailRepository;
-        this.orderRepository = orderRepository;
-    }
-
-    public OrderDetail saveOrderDetail(Long orderId, OrderDetail orderDetail) {
-        Order order = orderRepository.findById(orderId)
-                .orElseThrow(() -> new RuntimeException("Order not found with id: " + orderId));
-        orderDetail.setOrder(order);
-        // Asigna los nuevos campos desde el objeto orderDetail que viene del frontend
-        orderDetail.setProductName(orderDetail.getProductName());
-        orderDetail.setProductId(orderDetail.getProductId());
-        orderDetail.setUnitPrice(orderDetail.getUnitPrice());
-        orderDetail.setQuantity(orderDetail.getQuantity());
-        return orderDetailRepository.save(orderDetail);
-    }
+    private final OrderDetailRepository orderDetailRepository;
+    @Autowired
+    private final OrderRepository orderRepository;
 
     public List<OrderDetail> getAllOrderDetails() {
         return orderDetailRepository.findAll();
     }
 
-    public Optional<OrderDetail> getOrderDetailById(Integer id) {
+    public Optional<OrderDetail> getOrderDetailById(Long id) {
         return orderDetailRepository.findById(id);
     }
 
-    public OrderDetail saveOrderDetail(OrderDetail orderDetail) {
+    public OrderDetail addOrderDetail(OrderDetail orderDetail) {
         return orderDetailRepository.save(orderDetail);
     }
 
-    public void deleteOrderDetail(Integer id) {
+    public void deleteOrderDetail(Long id) {
         orderDetailRepository.deleteById(id);
     }
 
-    public OrderDetail updateOrderDetail(Integer id, OrderDetail orderDetailDetails) {
+    public OrderDetail updateOrderDetail(Long id, OrderDetail newOrderDetail) {
         OrderDetail orderDetail = orderDetailRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Order detail not found with id: " + id));
 
-        orderDetail.setUnitPrice(orderDetailDetails.getUnitPrice());
-        orderDetail.setQuantity(orderDetailDetails.getQuantity());
+        orderDetail.setUnitPrice(newOrderDetail.getUnitPrice());
+        orderDetail.setQuantity(newOrderDetail.getQuantity());
 
-        return orderDetailRepository.save(orderDetail);
+        return orderDetailRepository.save(orderDetail)
+                ;
     }
 
-    public List<OrderDetail> getOrderDetailsByOrderId(Long orderId) {
-        return orderDetailRepository.findByOrder_OrderId(orderId);
-    }
 }

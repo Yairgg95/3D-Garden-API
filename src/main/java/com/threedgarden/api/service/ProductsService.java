@@ -67,9 +67,6 @@ public class ProductsService {
         if(productDetails.getPrice() != null){
             product.setPrice(productDetails.getPrice());
         }
-        if(productDetails.getStock() != null){
-            product.setStock(productDetails.getStock());
-        }
         if(productDetails.getImage() != null){
             product.setImage(productDetails.getImage());
         }

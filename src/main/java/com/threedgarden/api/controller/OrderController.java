@@ -10,8 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/orders")
-@CrossOrigin(origins = {"http://127.0.0.1:5500", "http://127.0.0.1:5501"})
+@RequestMapping(path= "/api/orders")
 public class OrderController {
     private final OrderService orderService;
 
@@ -21,12 +20,11 @@ public class OrderController {
     }
 
     @GetMapping
-
     public List<Order> getAllOrders() {
         return orderService.getAllOrders();
     }
 
-    @GetMapping("/{id}")
+    @GetMapping(path="/{id}")
     public ResponseEntity<Order> getOrderById(@PathVariable Long id) {
         Optional<Order> order = orderService.getOrderById(id);
         return order.map(ResponseEntity::ok)
@@ -34,14 +32,14 @@ public class OrderController {
     }
 
     @PostMapping
-    public Order createOrder(@RequestBody Order order) {
-        return orderService.saveOrder(order);
+    public Order addOrder(@RequestBody Order order) {
+        return orderService.addOrder(order);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Order> updateOrder(@PathVariable Long id, @RequestBody Order orderDetails) {
+    public ResponseEntity<Order> updateOrder(@PathVariable("id") Long id, @RequestBody Order orderInfo) {
         try {
-            Order updatedOrder = orderService.updateOrder(id, orderDetails);
+            Order updatedOrder = orderService.updateOrderById(id, orderInfo);
             return ResponseEntity.ok(updatedOrder);
         } catch (RuntimeException e) {
             return ResponseEntity.notFound().build();
@@ -49,8 +47,21 @@ public class OrderController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteOrder(@PathVariable Long id) {
-        orderService.deleteOrder(id);
+    public ResponseEntity<Void> deleteOrder(@PathVariable("id") Long id) {
+        orderService.deleteOrderById(id);
         return ResponseEntity.noContent().build();
     }
+//
+//    @PostMapping("/checkout")
+//    public ResponseEntity<Order> checkout(@RequestBody CartRequest cartRequest, Authentication authentication) {
+//        // Aquí obtenemos directamente el username del token de autenticación
+//        String username = authentication.g;
+//
+//        // Pasamos el username al servicio en lugar del userId
+//        Order order = orderService.createOrderFromCart(cartRequest, username);
+//
+//        return ResponseEntity.ok(order);
+//    }
+
+
 }

@@ -25,24 +25,24 @@ public class OrderDetailController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<OrderDetail> getOrderDetailById(@PathVariable Integer id) {
+    public ResponseEntity<OrderDetail> getOrderDetailById(@PathVariable Long id) {
         Optional<OrderDetail> orderDetail = orderDetailService.getOrderDetailById(id);
         return orderDetail.map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
-
-    @GetMapping("/order/{orderId}")
-    public List<OrderDetail> getOrderDetailsByOrderId(@PathVariable Long orderId) {
-        return orderDetailService.getOrderDetailsByOrderId(orderId);
-    }
+//
+//    @GetMapping("/order/{orderId}")
+//    public List<OrderDetail> getOrderDetailsByOrderId(@PathVariable Long orderId) {
+//        return orderDetailService.getOrderDetailsByOrderId(orderId);
+//    }
 
     @PostMapping
-    public OrderDetail createOrderDetail(@RequestParam Long orderId, @RequestBody OrderDetail orderDetail) {
-        return orderDetailService.saveOrderDetail(orderId, orderDetail);
+    public OrderDetail addOrderDetail(@RequestBody OrderDetail orderDetail) {
+        return orderDetailService.addOrderDetail(orderDetail);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<OrderDetail> updateOrderDetail(@PathVariable Integer id, @RequestBody OrderDetail orderDetailDetails) {
+    public ResponseEntity<OrderDetail> updateOrderDetail(@PathVariable Long id, @RequestBody OrderDetail orderDetailDetails) {
         try {
             OrderDetail updatedOrderDetail = orderDetailService.updateOrderDetail(id, orderDetailDetails);
             return ResponseEntity.ok(updatedOrderDetail);
@@ -52,7 +52,7 @@ public class OrderDetailController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteOrderDetail(@PathVariable Integer id) {
+    public ResponseEntity<Void> deleteOrderDetail(@PathVariable Long id) {
         orderDetailService.deleteOrderDetail(id);
         return ResponseEntity.noContent().build();
     }

@@ -2,6 +2,7 @@ package com.threedgarden.api.controller;
 
 import com.threedgarden.api.dto.AddressRequest;
 import com.threedgarden.api.dto.LoginRequest;
+import com.threedgarden.api.dto.OrderRequest;
 import com.threedgarden.api.model.Users;
 import com.threedgarden.api.service.UsersService;
 import lombok.RequiredArgsConstructor;
@@ -45,6 +46,11 @@ public class UsersController {
     @PostMapping("/{userId}/address")
     public ResponseEntity<Users> addUserAddress(@PathVariable("userId") Long id, @RequestBody AddressRequest addressRequest) {
         return ResponseEntity.ok(usersService.addUsersAddress(id, addressRequest));
+    }
+
+    @PostMapping("/{userId}/orders")
+    public ResponseEntity<Users> addUserOrder(@PathVariable("userId") Long id, @RequestBody OrderRequest orderRequest) {
+        return ResponseEntity.ok(usersService.addUsersOrder(id, orderRequest));
     }
 
     @PostMapping("/login")
