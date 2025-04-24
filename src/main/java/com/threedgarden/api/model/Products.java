@@ -1,6 +1,7 @@
 package com.threedgarden.api.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -32,15 +33,17 @@ public class Products {
     @JoinColumn(name = "characteristics_id", referencedColumnName = "id")
     private Characteristics characteristics;
 
-    @OneToMany(mappedBy = "product")
-    @JsonIgnore //para evitar recursion infinita si devuelves el producto
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
+    @JsonManagedReference(value = "product-inventories")
     private List<Inventory> inventories;
 
-    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
+    @JsonManagedReference(value = "product-categorylink")
     private List<ProductCategoryLink> productCategories;
 
-    @OneToMany(mappedBy = "product")
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
     private List<OrderDetail> orderDetails;
 

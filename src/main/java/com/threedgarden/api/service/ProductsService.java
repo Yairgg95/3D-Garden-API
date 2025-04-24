@@ -21,6 +21,7 @@ public class ProductsService {
     private final ProductsRepository productsRepository;
     private final CharacteristicsRepository characteristicsRepository;
     private final ProductCategoryLinkRepository productCategoryLinkRepository;
+    private final InventoryRepository inventoryRepository;
 
     public ProductsService(ProductsRepository productsRepository, CharacteristicsRepository characteristicsRepository, ProductCategoryLinkRepository productCategoryLinkRepository,
                            InventoryRepository inventoryRepository) {
@@ -134,60 +135,37 @@ public class ProductsService {
         return product;
     }
 
-    @Autowired
-    private CategoryRepository categoryRepository;
-    private final InventoryRepository inventoryRepository;
+    public Products addCategorytoProduct(Long id, CategoryRequest categoryRequest){
+        Products newProduct = getProductById(id);
 
-    public Products addCategorytoProduct(Long productId, CategoryRequest categoryRequest){
-        Products product = productsRepository.findById(productId).orElseThrow(
-                ()-> new IllegalArgumentException("El producto con id" + productId + " no se encontró")
-        );
-        Category category = categoryRepository.findByName(categoryRequest.getName())
-                .orElseGet(() -> {
-                    Category newCategory = new Category();
-                    newCategory.setName(categoryRequest.getName());
-                    newCategory.setDescription(categoryRequest.getDescription());
-                    return categoryRepository.save(newCategory);
-                });
+        ProductCategoryLink newCategoryLink = new ProductCategoryLink();
+        Category newCategory = new Category();
 
-        // Verificar que no exista ya ese vínculo
-        boolean alreadyLinked = product.getProductCategories().stream()
-                .anyMatch(link -> link.getCategory().getId().equals(category.getId()));
+        newCategory.setName(categoryRequest.getName());
+        newCategory.setDescription(categoryRequest.getDescription());
 
-        if (!alreadyLinked) {
-            ProductCategoryLink link = new ProductCategoryLink();
-            link.setProduct(product);
-            link.setCategory(category);
+        newCategoryLink.setCategory(newCategory);
+        newCategoryLink.setProduct(newProduct);
 
-            product.getProductCategories().add(link);
-            category.getProductCategories().add(link);
+        productCategoryLinkRepository.save(newCategoryLink);
 
-            // Persistir la relación
-            productCategoryLinkRepository.save(link);
-        }
-
-        return productsRepository.save(product); // opcional, si necesitas el return actualizado
+        return newProduct;
     }
 
-    public Products addInvetory(Long id, InventoryRequest inventoryRequest){
-        Products product = productsRepository.findById(id).orElseThrow(
-                ()-> new IllegalArgumentException("El producto con id" + id + " no se encontró")
-        );
-        Inventory newInventory = new Inventory();
-        if(inventoryRequest.getQuantity() != 0){
-            newInventory.setQuantity(inventoryRequest.getQuantity());
-        }
-        if(inventoryRequest.getStatus() != null){
-            newInventory.setStatus(inventoryRequest.getStatus());
-        }
-        if(inventoryRequest.getRegistrationDate() != null){
-            newInventory.setRegistrationDate(LocalDate.now());
-        }
+    public Products addIventorytoProduct(Long id, InventoryRequest inventoryRequest){
+        Products newProduct = getProductById(id);
 
-        newInventory.setProduct(product);
-        product.getInventories().add(newInventory);
+        Inventory newInventory = new Inventory();
+
+        newInventory.setRegistrationDate(inventoryRequest.getRegistrationDate());
+        newInventory.setQuantity(inventoryRequest.getQuantity());
+        newInventory.setStatus(inventoryRequest.getStatus());
+        newInventory.setProduct(newProduct);
+
         inventoryRepository.save(newInventory);
-        return productsRepository.save(product);
+        newProduct.getInventories().add(newInventory);
+
+        return newProduct;
     }
 
 

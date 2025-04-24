@@ -1,6 +1,7 @@
 package com.threedgarden.api.model;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -29,7 +30,8 @@ public class Inventory {
 
 
     @ManyToOne(fetch = FetchType.EAGER) //Para que cargue el producto completo
-    @JoinColumn(name="product_id", nullable = false)
+    @JoinColumn(name="product_id")
+    @JsonBackReference(value = "product-inventories")
     private Products product;
 
 
