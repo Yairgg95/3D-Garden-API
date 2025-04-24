@@ -1,6 +1,6 @@
 package com.threedgarden.api.controller;
 
-import com.threedgarden.api.model.Order;
+import com.threedgarden.api.model.OrderEntity;
 import com.threedgarden.api.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -20,27 +20,27 @@ public class OrderController {
     }
 
     @GetMapping
-    public List<Order> getAllOrders() {
+    public List<OrderEntity> getAllOrders() {
         return orderService.getAllOrders();
     }
 
     @GetMapping(path="/{id}")
-    public ResponseEntity<Order> getOrderById(@PathVariable Long id) {
-        Optional<Order> order = orderService.getOrderById(id);
+    public ResponseEntity<OrderEntity> getOrderById(@PathVariable Long id) {
+        Optional<OrderEntity> order = orderService.getOrderById(id);
         return order.map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @PostMapping
-    public Order addOrder(@RequestBody Order order) {
-        return orderService.addOrder(order);
+    public OrderEntity addOrder(@RequestBody OrderEntity orderEntity) {
+        return orderService.addOrder(orderEntity);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Order> updateOrder(@PathVariable("id") Long id, @RequestBody Order orderInfo) {
+    public ResponseEntity<OrderEntity> updateOrder(@PathVariable("id") Long id, @RequestBody OrderEntity orderEntityInfo) {
         try {
-            Order updatedOrder = orderService.updateOrderById(id, orderInfo);
-            return ResponseEntity.ok(updatedOrder);
+            OrderEntity updatedOrderEntity = orderService.updateOrderById(id, orderEntityInfo);
+            return ResponseEntity.ok(updatedOrderEntity);
         } catch (RuntimeException e) {
             return ResponseEntity.notFound().build();
         }

@@ -1,6 +1,5 @@
 package com.threedgarden.api.service;
 
-import com.threedgarden.api.model.Order;
 import com.threedgarden.api.model.OrderDetail;
 import com.threedgarden.api.repository.OrderDetailRepository;
 import com.threedgarden.api.repository.OrderRepository;

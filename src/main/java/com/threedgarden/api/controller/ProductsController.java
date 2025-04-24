@@ -1,6 +1,7 @@
 package com.threedgarden.api.controller;
 
 
+import com.threedgarden.api.dto.CategoryRequest;
 import com.threedgarden.api.dto.CharacteristicsRequest;
 import com.threedgarden.api.dto.ProductCategoryAssociationRequest;
 import com.threedgarden.api.model.Products;
@@ -12,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping(path = "/api/products/")
+@RequestMapping(path = "/api/products")
 public class ProductsController {
     private final ProductsService productsService;
 
@@ -26,7 +27,7 @@ public class ProductsController {
         return productsService.getAllProducts();
     }
 
-    @GetMapping(path="{productId}")
+    @GetMapping(path="/{productId}")
     public Products getProductById(@PathVariable("productId") Long id){
         return productsService.getProductById(id);
     }
@@ -36,34 +37,34 @@ public class ProductsController {
         return productsService.addProduct(product);
     }
 
-    @DeleteMapping(path="{productId}")
+    @DeleteMapping(path="/{productId}")
     public Products deleteProductById(@PathVariable("productId")Long id){
         return productsService.deleteProductById(id);
     }
 
-    @PutMapping(path="{productId}")
+    @PutMapping(path="/{productId}")
     public Products updateProductById(@PathVariable("productId")Long id, @RequestBody Products product){
         return productsService.updateProduct(id,product);
     }
 
     // add characteristic to a product
-    @PostMapping(path="{productId}/add-characteristics")
+    @PostMapping(path="/{productId}/add-characteristics")
     public Products addCharacteristicsProduct(@PathVariable("productId") long id, @RequestBody CharacteristicsRequest characteristicsRequest){
         return productsService.addCharacteristics(id, characteristicsRequest);
     }
 
     // update characteristic from a product
-    @PutMapping(path="{productId}/update-characteristics")
+    @PutMapping(path="/{productId}/update-characteristics")
     public Products updateCharacteristicsProduct(@PathVariable("productId") long id, @RequestBody CharacteristicsRequest characteristicsRequest){
         return productsService.updateCharacteristics(id, characteristicsRequest);
     }
 
-    @PostMapping("/{productId}/categories")
-    public ResponseEntity<String> addCategoriesToProduct(
+    @PostMapping("/{productId}/add-category")
+    public ResponseEntity<Products> addCategoryToProduct(
             @PathVariable Long productId,
-            @RequestBody ProductCategoryAssociationRequest request) {
-        productsService.addCategoriesToProduct(productId, request.getCategoryIds());
-        return ResponseEntity.ok("Categorías asociadas correctamente.");
+            @RequestBody CategoryRequest categoryRequest) {
+        Products updatedProduct = productsService.addCategorytoProduct(productId, categoryRequest);
+        return ResponseEntity.ok(updatedProduct);
     }
 }
 

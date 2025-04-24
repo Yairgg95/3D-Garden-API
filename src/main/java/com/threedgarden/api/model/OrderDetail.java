@@ -1,5 +1,4 @@
 package com.threedgarden.api.model;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -22,8 +21,8 @@ public class OrderDetail {
     private Double unitPrice;
 
     @ManyToOne
-    @JoinColumn(name = "order_id")
-    private Order order;
+    @JoinColumn(name = "orders_id")
+    private OrderEntity order;
 
     @ManyToOne
     @JoinColumn(name = "product_id")
