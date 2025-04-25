@@ -1,9 +1,9 @@
-const route = "http://localhost:8080";
+const route = "http://3.145.32.20";
 let products = [];
 keys = ["Id", "Nombre", "Imagen", "Descripción", "Stock", "Precio"];
 
 function fetchProducts() {
-  fetch(route + "/api/products/")
+  fetch(route + "/api/products")
     .then((response) => {
       if (!response.ok) {
         throw new Error(`Error HTTP! status: ${response.status}`);
@@ -120,7 +120,7 @@ function addProduct(event) {
     image: image,
   };
 
-  fetch(route + "/api/products/", {
+  fetch(route + "/api/products", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
