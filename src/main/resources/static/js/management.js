@@ -1,9 +1,9 @@
-const route = "http://3.145.32.20";
+const route = "http://localhost:8080";
 let products = [];
 keys = ["Id", "Nombre", "Imagen", "Descripción", "Stock", "Precio"];
 
 function fetchProducts() {
-  fetch(route + "/api/products")
+  fetch(route + "/api/products/")
     .then((response) => {
       if (!response.ok) {
         throw new Error(`Error HTTP! status: ${response.status}`);
@@ -107,7 +107,7 @@ function addProduct(event) {
   event.preventDefault();
 
   const name = document.getElementById("name").value;
-  const image = "0"; //document.getElementById("image").files[0];
+  const image = document.getElementById("image").value;
   const description = document.getElementById("description").value;
   const stock = parseInt(document.getElementById("stock").value);
   const price = parseFloat(document.getElementById("price").value);
@@ -120,7 +120,7 @@ function addProduct(event) {
     image: image,
   };
 
-  fetch(route + "/api/products", {
+  fetch(route + "/api/products/", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -184,6 +184,7 @@ function editPrefillModal(product) {
     .getElementById("editProduct")
     .setAttribute("data-product-id", product.id);
   document.getElementById("edit_name").value = product.name;
+  document.getElementById("edit_image").value = product.image;
   document.getElementById("edit_description").value = product.description;
   document.getElementById("edit_stock").value = product.stock;
   document.getElementById("edit_price").value = product.price;
