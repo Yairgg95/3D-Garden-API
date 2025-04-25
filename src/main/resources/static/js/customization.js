@@ -43,7 +43,7 @@ function addPersonalizedProduct(event) {
     image: image,
   };
 
-  fetch(route + "/api/products/", {
+  fetch(route + "/api/products", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
