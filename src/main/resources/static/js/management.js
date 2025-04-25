@@ -1,107 +1,28 @@
-const Products = [
-  {
-    id: 1,
-    title: "Opaco café",
-    image:
-      "https://images.pexels.com/photos/931186/pexels-photo-931186.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-    description:
-      "Maceta elegante en tono café, perfecta para plantas pequeñas y suculentas.",
-    quantityStock: 1,
-    price: 2500.0,
-  },
-  {
-    id: 2,
-    title: "Mini fuente",
-    image:
-      "https://images.pexels.com/photos/6231857/pexels-photo-6231857.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-    description:
-      "Encantador florero mini con diseño de fuente, ideal para centros de mesa.",
-    quantityStock: 5,
-    price: 3800.0,
-  },
-  {
-    id: 3,
-    title: "Acompañante de sueño",
-    image:
-      "https://images.pexels.com/photos/7663251/pexels-photo-7663251.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-    description:
-      "Maceta moderna para tu planta de dormitorio, promueve la relajación.",
-    quantityStock: 10,
-    price: 3500.0,
-  },
-  {
-    id: 4,
-    title: "Jardin de niños",
-    image:
-      "https://images.pexels.com/photos/11286045/pexels-photo-11286045.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-    description:
-      "Divertido juego de macetas infantiles para iniciar pequeños jardineros.",
-    quantityStock: 2,
-    price: 1800.0,
-  },
-  {
-    id: 5,
-    title: "Juego de bases",
-    image:
-      "https://images.pexels.com/photos/4045533/pexels-photo-4045533.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-    description:
-      "Set de macetas modulares para crear composiciones florales únicas.",
-    quantityStock: 8,
-    price: 1500.0,
-  },
-  {
-    id: 6,
-    title: "Romano",
-    image:
-      "https://images.pexels.com/photos/4272613/pexels-photo-4272613.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-    description:
-      "Florero clásico de inspiración romana para arreglos sofisticados.",
-    quantityStock: 8,
-    price: 1500.0,
-  },
-  {
-    id: 7,
-    title: "Tomáte",
-    image:
-      "https://images.pexels.com/photos/8170226/pexels-photo-8170226.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-    description: "Maceta especial para cultivar tomates cherry en interiores.",
-    quantityStock: 1,
-    price: 2500.0,
-  },
-  {
-    id: 8,
-    title: "Suculenta",
-    image:
-      "https://images.pexels.com/photos/773805/pexels-photo-773805.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-    description:
-      "Maceta diseñada especialmente para el crecimiento de suculentas.",
-    quantityStock: 5,
-    price: 3800.0,
-  },
-  {
-    id: 9,
-    title: "Mini flor",
-    image:
-      "https://images.pexels.com/photos/1191318/pexels-photo-1191318.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-    description: "Pequeño florero para ramitos de flores frescas o secas.",
-    quantityStock: 10,
-    price: 3500.0,
-  },
-  {
-    id: 10,
-    title: "Maceta grande",
-    image:
-      "https://images.pexels.com/photos/3771640/pexels-photo-3771640.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-    description:
-      "Amplia maceta para plantas de gran tamaño o pequeños árboles.",
-    quantityStock: 2,
-    price: 1800.0,
-  },
-];
+const route = "http://3.145.32.20";
+let products = [];
+keys = ["Id", "Nombre", "Imagen", "Descripción", "Stock", "Precio"];
+let productIdToDelete = null;
+
+function fetchProducts() {
+  fetch(route + "/api/products")
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(`Error HTTP! status: ${response.status}`);
+      }
+      return response.json();
+    })
+    .then((data) => {
+      products = data;
+      renderManagement(products);
+    })
+    .catch((error) => {
+      console.error("Error obteniendo los productos:", error);
+    });
+}
 
 function renderManagement(Products) {
   //? Creacion de elementos del tablero admin
-  //
+
   const table = document.getElementById("mainTable");
   const thead = document.createElement("thead");
   const tbody = document.createElement("tbody");
@@ -109,8 +30,7 @@ function renderManagement(Products) {
 
   table.innerHTML = "";
 
-  // Create header row with each key
-  Object.keys(Products[0]).forEach((key) => {
+  keys.forEach((key) => {
     const th = document.createElement("th");
     th.className = "col";
     th.textContent = key;
@@ -132,7 +52,7 @@ function renderManagement(Products) {
     const td_description = document.createElement("td");
     const td_image = document.createElement("td");
     const img = document.createElement("img");
-    const td_quantityStock = document.createElement("td");
+    const td_stock = document.createElement("td");
     const td_price = document.createElement("td");
     const td_manage = document.createElement("td");
 
@@ -143,40 +63,170 @@ function renderManagement(Products) {
     td_image.className = "align-middle";
     img.className = "management-img rounded";
     td_description.className = "align-middle";
-    td_quantityStock.className = "align-middle";
+    td_stock.className = "align-middle";
     td_price.className = "align-middle";
     td_manage.classList = "align-middle";
-    td_manage.innerHTML =
-      '<div class="d-flex gap-2"> <button class="btn btn-danger" type="button" data-bs-toggle="modal" data-bs-target="#confirmDeleteProduct">Eliminar</button> <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#editProduct">Editar</button></div>';
+
+    // Create delete button
+    const deleteBtn = document.createElement("button");
+    deleteBtn.textContent = "Eliminar";
+    deleteBtn.className = "btn btn-danger me-2";
+    deleteBtn.setAttribute("type", "button");
+    deleteBtn.setAttribute("data-bs-toggle", "modal");
+    deleteBtn.setAttribute("data-bs-target", "#confirmDeleteProduct");
+    deleteBtn.setAttribute("data-product-id", product.id);
+    deleteBtn.onclick = function () {
+      setProductIdToDelete(product.id);
+    };
+
+    // Create edit button
+    const editBtn = document.createElement("button");
+    editBtn.textContent = "Editar";
+    editBtn.className = "btn btn-warning";
+    editBtn.setAttribute("type", "button");
+    editBtn.setAttribute("data-bs-toggle", "modal");
+    editBtn.setAttribute("data-bs-target", "#editProduct");
+    editBtn.setAttribute("data-product-id", product.id);
+    editBtn.onclick = function () {
+      editPrefillModal(product);
+    };
 
     th.innerHTML = product.id;
-    td.innerHTML = product.title;
+    td.innerHTML = product.name;
     td_description.innerHTML = product.description;
     img.src = product.image;
-    td_quantityStock.innerHTML = product.quantityStock;
+    td_stock.innerHTML = product.stock;
     td_price.innerHTML = product.price;
 
+    td_manage.append(deleteBtn, editBtn);
     td_image.append(img);
-    tr.append(
-      th,
-      td,
-      td_image,
-      td_description,
-      td_quantityStock,
-      td_price,
-      td_manage
-    );
+    tr.append(th, td, td_image, td_description, td_stock, td_price, td_manage);
     tbody.append(tr);
   });
 
   table.append(thead, tbody);
 }
 
-function showDeleteProductAlert(){
+function addProduct(event) {
+  event.preventDefault();
+
+  const name = document.getElementById("name").value;
+  const image = document.getElementById("image").value;
+  const description = document.getElementById("description").value;
+  const stock = parseInt(document.getElementById("stock").value);
+  const price = parseFloat(document.getElementById("price").value);
+
+  const productData = {
+    name: name,
+    description: description,
+    price: price,
+    stock: stock,
+    image: image,
+  };
+
+  fetch(route + "/api/products", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(productData),
+  })
+    .then((response) => {
+      if (!response.ok)
+        throw new Error(`Error HTTP! status: ${response.status}`);
+      return response.json();
+    })
+    .then((data) => {
+      console.log("Producto agregado:", data);
+      document.getElementById("addProductForm").reset();
+      bootstrap.Modal.getInstance(document.getElementById("addProduct")).hide();
+      fetchProducts();
+    })
+    .catch((error) => {
+      console.error("Error agregando el producto:", error);
+    });
+}
+
+function showDeleteProductAlert() {
   var deleteProductAlert = document.getElementById("deleteProduct");
   deleteProductAlert.classList.remove("d-none");
 }
 
+function setProductIdToDelete(id) {
+  productIdToDelete = id;
+}
+
+function deleteProduct() {
+  if (!productIdToDelete) return;
+
+  fetch(route + "/api/products/" + productIdToDelete, {
+    method: "DELETE",
+  })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(`Error HTTP! status: ${response.status}`);
+      }
+      return response.json();
+    })
+    .then((data) => {
+      console.log("Producto eliminado:", data);
+      bootstrap.Modal.getInstance(document.getElementById("confirmDeleteProduct")).hide();
+      fetchProducts();
+    })
+    .catch((error) => {
+      console.error("Error eliminando el producto:", error);
+    });
+}
+
+function editPrefillModal(product) {
+  document.getElementById("editProduct").setAttribute("data-product-id", product.id);
+  document.getElementById("edit_name").value = product.name;
+  document.getElementById("edit_image").value = product.image;
+  document.getElementById("edit_description").value = product.description;
+  document.getElementById("edit_stock").value = product.stock;
+  document.getElementById("edit_price").value = product.price;
+}
+
+function editProduct(event) {
+  event.preventDefault();
+
+  const productId = document.getElementById("editProduct").getAttribute("data-product-id");
+
+  const name = document.getElementById("edit_name").value;
+  const image = document.getElementById("edit_image").value;
+  const description = document.getElementById("edit_description").value;
+  const stock = parseInt(document.getElementById("edit_stock").value);
+  const price = parseFloat(document.getElementById("edit_price").value);
+
+  const productData = {
+    name,
+    image,
+    description,
+    stock,
+    price,
+  };
+
+  fetch(route + "/api/products/" + productId, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(productData),
+  })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(`Error HTTP! status: ${response.status}`);
+      }
+      return response.json();
+    })
+    .then((data) => {
+      console.log("Producto actualizado:", data);
+      bootstrap.Modal.getInstance(document.getElementById("editProduct")).hide();
+      fetchProducts();
+    })
+    .catch((error) => {
+      console.error("Error actualizando el producto:", error);
+    });
+}
+
 document.addEventListener("DOMContentLoaded", () => {
-  renderManagement(Products);
+  fetchProducts(products);
 });
