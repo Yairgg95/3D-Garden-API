@@ -24,7 +24,7 @@ function renderProducts(Products) {
   const productCard = document.getElementById("productsCards");
   productCard.innerHTML = "";
 
-  Products.forEach((product) => {
+  Products.filter(p => !p.name.includes("@")).forEach((product) => {
     const col = document.createElement("div");
     col.className = "col col-product pb-3";
     const card = document.createElement("div");
