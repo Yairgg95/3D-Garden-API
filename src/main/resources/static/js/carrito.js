@@ -2,11 +2,32 @@
 const products = [
     { id: 1, name: "Maceta Pokemon Chikorita 3D ", price: 100, img: '../assets/macetas/1.jpg' },
     { id: 2, name: "Maceta Pokemon Charmander 3D", price: 250, img: '../assets/macetas/3.png' },
-    { id: 3, name: "Maceta Pokemon Bulbasaur 3D", price: 200, img: '../assets/macetas/2.jpg' },
+    { id: 3, name: "Maceta Pokemon Bulbasaur 3D", price: 200, img: '../assets/macetas/2.jpg'  },
     { id: 4, name: "Maceta Pokemon Gengar 3D", price: 200, img: '../assets/macetas/4.jpg' },
     { id: 5, name: "Maceta Pokemon Pikachu 3D", price: 300, img: '../assets/macetas/5.jpg' },
     { id: 6, name: "Maceta Pokemon Chikorita 3D", price: 110, img: '../assets/macetas/1.jpg' }
 ];
+
+function displayProducts() {
+    productListElement.innerHTML = '';
+    products.forEach(product => {
+        const productElement = document.createElement("div");
+        productElement.classList.add("col-12 col-sm-6 col-md-4");
+
+        productElement.innerHTML = `
+            <div class="card h-100 shadow-lg">
+                <img src="${product.img}" class="card-img-top" alt="${product.name}" style="height: 180px; object-fit: cover;">
+                <div class="card-body text-center">
+                    <h5 class="card-title roboto-flex">${product.name}</h5>
+                    <p class="card-text roboto-flex">Precio: $${product.price}</p>
+                    <button class="btn btn-primary w-100" onclick="addToCart(${product.id})">Añadir al carrito</button>
+                </div>
+            </div>
+        `;
+        productListElement.appendChild(productElement);
+    });
+}
+
 
 // Variables
 let cart = []; // Array para el carrito
@@ -50,8 +71,11 @@ function addToCart(productId) {
     }
 }
 
+
+
 // Función para actualizar el carrito
 function updateCart() {
+    const SHIPPING_COST = 80;
     cartItemsElement.innerHTML = ''; // Limpiar carrito actual
     let total = 0;
 
@@ -71,7 +95,7 @@ function updateCart() {
         <p class="card-text">Cantidad: ${item.quantity}</p>
          </div>
          </div>
-
+    
          <div class="col-3 text-end pe-3">
              <button class="btn btn-outline-danger btn-sm" onclick="removeFromCart(${index})">
             <i class="bi bi-trash"></i>
@@ -80,6 +104,7 @@ function updateCart() {
         </div>
         `;
 
+    
         cartItemsElement.appendChild(cartItemElement);
         total += item.price * item.quantity;
     });
@@ -89,6 +114,7 @@ function updateCart() {
     localStorage.setItem('cart', JSON.stringify(cart));
 }
 
+
 function loadCart() {
     const storedCart = localStorage.getItem('cart');
     if (storedCart) {
@@ -96,6 +122,7 @@ function loadCart() {
     }
     updateCart(); // <-- Agregado para que se muestre en pantalla
 }
+
 
 function removeFromCart(index) {
     if (cart[index].quantity > 1) {
@@ -106,17 +133,18 @@ function removeFromCart(index) {
     updateCart();
 }
 
+
 function clearCart() {
     cart = []; // Vaciar el array del carrito
     localStorage.removeItem('cart'); // Eliminar el carrito de localStorage
     updateCart(); // Actualizar la visualización del carrito
 }
-
 const clearCartButton = document.getElementById("clear-cart-button");
 clearCartButton.addEventListener("click", clearCart);
 
 const checkoutButton = document.getElementById("checkout-button");
 checkoutButton.addEventListener("click", proceedToCheckout);
+
 
 function showBootstrapAlert(message, type = 'success') {
     const alertContainer = document.getElementById("alert-container");
@@ -127,81 +155,22 @@ function showBootstrapAlert(message, type = 'success') {
         </div>
     `;
 }
-
-// URL base de tu API
-const API_BASE_URL = 'http://localhost:8080/api';
-
-async function proceedToCheckout() {
+function proceedToCheckout() {
     if (cart.length === 0) {
         showBootstrapAlert("Tu carrito está vacío.", "warning");
         return;
     }
 
-    try {
-        // Calcular el total
-        const totalAmount = cart.reduce((total, item) => total + (item.price * item.quantity), 0);
+    showBootstrapAlert("¡Gracias por tu compra! Te llevaremos al pago...", "success");
 
-        // 1. Crear la orden principal
-        const orderResponse = await fetch(`${API_BASE_URL}/orders`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                orderDate: new Date().toISOString(),
-                status: "PENDING",
-                totalAmount: totalAmount
-            })
-        });
-
-        if (!orderResponse.ok) {
-            const errorResponse = await orderResponse.json();
-            throw new Error(errorResponse.message || 'Error al crear la orden');
-        }
-
-        const order = await orderResponse.json();
-        const orderId = order.orderId; // Obtener el ID de la orden creada
-
-        // 2. Crear los detalles del pedido para cada item en el carrito
-        for (const item of cart) {
-            const orderDetailResponse = await fetch(`${API_BASE_URL}/order-details?orderId=${orderId}`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    productName: item.name,
-                    productId: item.id,
-                    unitPrice: item.price,
-                    quantity: item.quantity
-                })
-            });
-
-            if (!orderDetailResponse.ok) {
-                const errorResponse = await orderDetailResponse.json();
-                console.error('Error al crear el detalle del pedido:', errorResponse);
-                showBootstrapAlert("Error al crear los detalles del pedido.", "danger");
-                return; // Detener el proceso si falla la creación de un detalle
-            }
-
-        }
-
-        // 3. Mostrar mensaje de éxito
-        setTimeout(() => {
-            window.location.href = `checkout.html?orderId=${orderId}`;
-        }, 2000);
-        showBootstrapAlert(`¡Pedido #${orderId} creado con éxito!`, "success");
-        clearCart();
-
-    } catch (error) {
-        console.error('Error:', error);
-        showBootstrapAlert("Error al procesar el pedido: " + error.message, "danger");
-    }
+    setTimeout(() => {
+        window.location.href = "checkout.html";
+    }, 3000); 
 }
 
-
-// Cargar el carrito cuando la página se carga
+// Llamar a loadCart al inicio
 loadCart();
 
+updateCart();
 // Mostrar productos cuando cargue la página
 displayProducts();

@@ -14,7 +14,7 @@ document.addEventListener("DOMContentLoaded", () => {
     showToast("Es necesario ralizar login para comprar", "bg-warning");
     setTimeout(() => {
       localStorage.removeItem("address");
-      window.location.href = "../index.html";
+      window.location.href = "../views/login.html";
     }, 2500);
   }
 
