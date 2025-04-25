@@ -1,6 +1,7 @@
 const route = "http://3.145.32.20";
 let products = [];
 keys = ["Id", "Nombre", "Imagen", "Descripción", "Stock", "Precio"];
+let productIdToDelete = null;
 
 function fetchProducts() {
   fetch(route + "/api/products")
@@ -74,6 +75,9 @@ function renderManagement(Products) {
     deleteBtn.setAttribute("data-bs-toggle", "modal");
     deleteBtn.setAttribute("data-bs-target", "#confirmDeleteProduct");
     deleteBtn.setAttribute("data-product-id", product.id);
+    deleteBtn.onclick = function () {
+      setProductIdToDelete(product.id);
+    };
 
     // Create edit button
     const editBtn = document.createElement("button");
@@ -134,13 +138,7 @@ function addProduct(event) {
     })
     .then((data) => {
       console.log("Producto agregado:", data);
-
-      document.getElementById("name").value = "";
-      document.getElementById("image").value = "";
-      document.getElementById("description").value = "";
-      document.getElementById("stock").value = "";
-      document.getElementById("price").value = "";
-
+      document.getElementById("addProductForm").reset();
       bootstrap.Modal.getInstance(document.getElementById("addProduct")).hide();
       fetchProducts();
     })
@@ -154,13 +152,14 @@ function showDeleteProductAlert() {
   deleteProductAlert.classList.remove("d-none");
 }
 
-function deleteProduct() {
-  const openButton = document.querySelector(
-    '[data-bs-toggle="modal"][data-bs-target="#confirmDeleteProduct"][data-product-id]'
-  );
-  const productId = openButton.getAttribute("data-product-id");
+function setProductIdToDelete(id) {
+  productIdToDelete = id;
+}
 
-  fetch(route + "/api/products/" + productId, {
+function deleteProduct() {
+  if (!productIdToDelete) return;
+
+  fetch(route + "/api/products/" + productIdToDelete, {
     method: "DELETE",
   })
     .then((response) => {
@@ -191,9 +190,7 @@ function editPrefillModal(product) {
 function editProduct(event) {
   event.preventDefault();
 
-  const productId = document
-    .getElementById("editProduct")
-    .getAttribute("data-product-id");
+  const productId = document.getElementById("editProduct").getAttribute("data-product-id");
 
   const name = document.getElementById("edit_name").value;
   const image = document.getElementById("edit_image").value;
