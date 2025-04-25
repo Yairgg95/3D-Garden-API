@@ -4,7 +4,6 @@ package com.threedgarden.api.controller;
 import com.threedgarden.api.dto.CategoryRequest;
 import com.threedgarden.api.dto.CharacteristicsRequest;
 import com.threedgarden.api.dto.InventoryRequest;
-import com.threedgarden.api.dto.ProductCategoryAssociationRequest;
 import com.threedgarden.api.model.Products;
 import com.threedgarden.api.service.ProductsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +33,8 @@ public class ProductsController {
     }
 
     @PostMapping
-    public Products addProduct(@RequestBody Products product){
+    public Products addProduct(@RequestBody Products
+                                           product){
         return productsService.addProduct(product);
     }
 
@@ -62,18 +62,24 @@ public class ProductsController {
 
     @PostMapping("/{productId}/add-category")
     public ResponseEntity<Products> addCategoryToProduct(
-            @PathVariable Long productId,
+            @PathVariable("productId")  Long productId,
             @RequestBody CategoryRequest categoryRequest) {
-        Products updatedProduct = productsService.addCategorytoProduct(productId, categoryRequest);
-        return ResponseEntity.ok(updatedProduct);
+        return ResponseEntity.ok(productsService.addCategoryToProduct(productId, categoryRequest));
     }
 
     @PostMapping("/{productId}/add-inventory")
     public ResponseEntity<Products> addInventoryToProduct(
-            @PathVariable Long productId,
+            @PathVariable("productId")  Long productId,
             @RequestBody InventoryRequest inventoryRequest) {
-        Products updatedProduct = productsService.addIventorytoProduct(productId, inventoryRequest);
-        return ResponseEntity.ok(updatedProduct);
+        return ResponseEntity.ok(productsService.addIventoryToProduct(productId, inventoryRequest));
     }
+
+    @PostMapping("/{productId}/add-orderDetails")
+    public ResponseEntity<Products> addProductToOrderDetails(
+            @PathVariable("productId")  Long productId,
+            @RequestBody InventoryRequest inventoryRequest) {
+        return ResponseEntity.ok(productsService.addIventoryToProduct(productId, inventoryRequest));
+    }
+
 }
 

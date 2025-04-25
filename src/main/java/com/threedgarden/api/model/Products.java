@@ -25,6 +25,8 @@ public class Products {
     private String description;
     @Column(nullable = false)
     private Long price;
+    @Column(nullable = false)
+    private Long stock;
     @Lob
     @Column(nullable = false, columnDefinition = "LONGTEXT")
     private String image;
@@ -44,7 +46,6 @@ public class Products {
     private List<ProductCategoryLink> productCategories;
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonIgnore
     private List<OrderDetail> orderDetails;
 
 }

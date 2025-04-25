@@ -13,17 +13,17 @@ document.addEventListener("DOMContentLoaded", async function() {
     data.developers.forEach((dev, i ) =>{
       //Crear contenedor de cada card
       const devCard = document.createElement("div");
-      devCard.className = "card col-12 col-md-6 col-lg-4 text-center mb-5";
-      //Crear elemento **imagen  
+      devCard.className = "card col-12 col-md-6 col-lg-4 text-center mb-5 d-flex";
+      //Crear elemento *imagen  
       const devImg = document.createElement("img");
       devImg.src = dev.img;
       devImg.alt = dev.name;
       devImg.className = "card-img-top rounded-circle mx-auto mt-3 mb-2";
       devImg.setAttribute = ("id","imgStory");
       devImg.style = "d-block w-100" 
-      //Crear elemento **div con sus respectivos textos y botones
+      //Crear elemento *div con sus respectivos textos y botones
       const devText = document.createElement("div");
-      devText.className = "card-body rounded-bottom-5";
+      devText.className = "card-body rounded-bottom-5 d-flex flex-column justify-content-between";
       const title = document.createElement("h3");
       title.innerText = dev.name;
       title.style.fontWeight = "700";
@@ -36,7 +36,7 @@ document.addEventListener("DOMContentLoaded", async function() {
       bio.className = "card-text pe-5 ps-5 pb-3";
       // Contenedor para los enlaces sociales
       const socialLinks = document.createElement("div");
-      socialLinks.className = "social-links";
+      socialLinks.className = "social-links mt-auto";
       //LinkedIn con ícono
       const linkedinLink = document.createElement("a");
       linkedinLink.href = dev.linkedin;
@@ -65,20 +65,18 @@ document.addEventListener("DOMContentLoaded", async function() {
 
   // Función para obtener el tamaño del grupo según la pantalla
   function getGroupSize() {
-    if (window.innerWidth >= 992) return 3; // Desktop: cada 3 tarjetas
-    if (window.innerWidth >= 768) return 2; // Tablet: cada 2 tarjetas
-    return 1; // Mobile: cada 1 tarjeta
+    if (window.innerWidth >= 992) return 3; // Desktop: 3 tarjetas
+    if (window.innerWidth >= 768) return 2; // Tablet: 2 tarjetas
+    return 1; // Mobile: 1 tarjeta
   }
   // Función para aplicar colores dinámicamente
   function applyColors() {
-    const devTexts = document.querySelectorAll(".card-body");
+    const cardDevs = document.querySelectorAll(".card-body");
     const groupSize = getGroupSize();
-    devTexts.forEach((devText, i) => {
-      devText.style.backgroundColor = colors[Math.floor(i / groupSize) % colors.length];
+    cardDevs.forEach((cardDevs, i) => {
+      cardDevs.style.backgroundColor = colors[Math.floor(i / groupSize) % colors.length];
     });
   }
-
-
   // Fetch para la línea del tiempo
   fetch("../assets/data/story.json")
   .then(response => response.json())

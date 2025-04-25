@@ -17,57 +17,59 @@
   </head>
   <body id="container-grid">
     <header id="navbar-container" class="fixed-top"></header>
-
     <main class="pt-5">
-      <section class="container" id="contact-info">
+      <section class="container-lg my-5" id="contact-info">
+        <div class="container mb-5 bg-green-opacity rounded-3">
+          <h1 class="text-center display-2 d-none d-lg-block jockey">Visítanos</h1> <!--titulo lg-->
+        </div>
         <div class="text-center mt-5 d-lg-flex flex-lg-row g-3 justify-content-lg-center" id="contact-info-container">
           <div class="mb-5 bg-green-opacity rounded-3 ">
-            <h1 class="text-center display-4 d-block d-lg-none jockey">Contáctanos</h1>
+            <h1 class="text-center display-4 d-block d-lg-none jockey">Visítanos</h1> <!--titulo sm y md-->
           </div>
-          <div class="container d-lg-flex flex-lg-column me-5 justify-content-lg-center text-center">
-            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1118.60805556115!2d-99.13336998280384!3d19.43252970249499!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x85d1fecd4864aaff%3A0x4cff0c5cb291360c!2sPlaza%20de%20la%20Constituci%C3%B3n!5e0!3m2!1ses-419!2smx!4v1741717053925!5m2!1ses-419!2smx" width="500" height="400" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+          <div class="container d-lg-flex justify-content-lg-center text-center">
+            <iframe class="h-100 w-100" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1118.60805556115!2d-99.13336998280384!3d19.43252970249499!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x85d1fecd4864aaff%3A0x4cff0c5cb291360c!2sPlaza%20de%20la%20Constituci%C3%B3n!5e0!3m2!1ses-419!2smx!4v1741717053925!5m2!1ses-419!2smx" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
           </div>
-          <div class="container d-lg-flex flex-lg-column justify-content-lg-center d-ms-5">
-            <div class="container mb-5 bg-green-opacity rounded-3">
-              <h1 class="text-center display-2 d-none d-lg-block jockey">Contáctanos</h1>
-            </div>
+          <div class="container d-lg-flex justify-content-lg-center d-ms-5">
             <div class="container roboto-flex bg-green-opacity rounded-3">
-              <h3><strong>Teléfono: </strong>+52 5549087065</h3>
-              <h3><strong>Dirección: </strong>Calle 2, esq Bvld Generation</h3>
-              <h3>Delegación, CDMX.</h3>
+              <p class="text-center lead">Será un placer atenderte, te esperamos en nuestra tienda física ubicada en: </p>
+              <h4><strong>Dirección: </strong>Calle 2, esq Bvld Generation</h4>
+              <h4>Delegación, CDMX.</h4>
+              <h4><strong>Teléfono: </strong>+52 5549087065</h4>
             </div>
           </div>
         </div>
+
       </section>
-      <section class="container">
+      
+      <section class="container-lg my-5">
+        <div class="container mb-5 bg-green-opacity rounded-3">
+          <h1 class="text-center display-2 d-none d-lg-block jockey">Haznos una pregunta</h1> <!--titulo lg-->
+        </div>
+        <div class=" bg-green-opacity rounded-3">
+          <h1 class="text-center display-4 d-block d-lg-none jockey">Haznos una pregunta</h1> <!--titulo sm y md-->
+        </div>
         <div class="mt-5 mb-5 d-lg-flex flex-lg-row g-3" id="contact-form-container">
-          <div class=" bg-green-opacity rounded-3">
-            <h1 class="text-center display-4 d-block d-lg-none jockey">Haznos una pregunta</h1>
-          </div>
-          <div class="container d-lg-flex flex-lg-column justify-content-lg-center me-5">
+          <div class="container d-lg-flex d-none d-lg-block me-3 justify-content-center">
             <img class="rounded-5 img-fluid" src="https://media.printables.com/media/prints/496337/images/4041562_fb9dd4ef-dc91-4a86-aa3c-7a78e84879d4/thumbs/inside/1280x960/png/mario.webp" alt="post question mark">
           </div>
-          <div class="container d-lg-flex flex-lg-column justify-content-lg-center d-ms-5">
-            <div class="container mb-5 bg-green-opacity rounded-3">
-              <h1 class="text-center display-2 d-none d-lg-block jockey">Haznos una pregunta</h1>
-            </div>
-            <div class="container roboto-flex bg-blue rounded-3">
+          <div class="container d-lg-flex justify-content-lg-center d-ms-5">
+            <div class="p-3 container roboto-flex bg-blue rounded-3">
               <form action="https://formspree.io/f/mgvaenbj" method="post">
-                <div class="row g-3">
-                  <div class="col mb-3">
-                    <label for="name" class="form-label ">Nombre:</label>
+                <div class="row g-3 row-cols-1 row-cols-lg-3">
+                  <div class="col pb-3 col-12">
+                    <label for="name" class="form-label">Nombre:</label>
                     <input class="form-control" type="text" name="name" id="name">
                   </div>
-                  <div class="col mb-3">
-                    <label for="mail" class="form-label ">E-mail:</label>
+                  <div class="col pb-3 col-12">
+                    <label for="mail" class="form-label">E-mail:</label>
                     <input class="form-control" type="email" name="mail" id="mail">
                   </div>
-                  <div class="col mb-3">
-                    <label for="phone" class="form-label ">Teléfono:</label>
+                  <div class="col pb-3 col-12">
+                    <label for="phone" class="form-label">Teléfono:</label>
                     <input class="form-control" type="number" name="phone" id="phone">
                   </div>
                 </div>  
-                <div class="mb-3">
+                <div class="pb-3">
                   <label for="message" class="form-label">Mensaje:</label>
                   <textarea class="form-control" id="message" rows="3" style="height: 100px"></textarea>
                 </div>
@@ -76,8 +78,20 @@
                 </div>
               </form>
             </div>
+            <div class="container d-lg-flex d-lg-none d-block justify-content-center mt-5">
+              <img class="rounded-5 img-fluid" src="https://media.printables.com/media/prints/496337/images/4041562_fb9dd4ef-dc91-4a86-aa3c-7a78e84879d4/thumbs/inside/1280x960/png/mario.webp" alt="post question mark">
+            </div>
+          </div>
         </div>
         </div>
+        <!-- Modal -->
+        <div class="modal fade" id="thanksModal" tabindex="-1" aria-labelledby="thanksModalLabel" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content text-center p-4">
+              <h5 class="modal-title" id="thanksModalLabel">¡Gracias por tus comentarios!</h5>
+              <button type="button" class="btn btn-primary mt-3" data-bs-dismiss="modal">Cerrar</button>
+            </div>
+          </div>
         </div>
       </section>
     </main>

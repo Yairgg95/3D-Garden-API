@@ -1,4 +1,6 @@
 package com.threedgarden.api.model;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -11,7 +13,6 @@ import lombok.*;
 public class OrderDetail {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column
     private Long id;
 
     @Column
@@ -22,10 +23,12 @@ public class OrderDetail {
 
     @ManyToOne
     @JoinColumn(name = "orders_id")
+    @JsonBackReference
     private OrderEntity order;
 
     @ManyToOne
     @JoinColumn(name = "product_id")
+    @JsonIgnore
     private Products product;
 
 }
