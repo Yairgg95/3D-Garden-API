@@ -9,12 +9,26 @@ document.addEventListener("DOMContentLoaded", () => {
   );
   const savedAddressText = document.getElementById("saved-address-text");
 
+  const user = JSON.parse(localStorage.getItem("user"));
+  if (!user) {
+    showToast("Es necesario ralizar login para comprar", "bg-warning");
+    setTimeout(() => {
+      localStorage.removeItem("address");
+      window.location.href = "../index.html";
+    }, 2500);
+  }
+
   function updateAddressView() {
-    const address = JSON.parse(localStorage.getItem("address")); // this need to refactor when the endpoint is ready
+    const user = JSON.parse(localStorage.getItem("user"));
+
+    const address =
+      user.addresses.length > 0
+        ? user.addresses[user.addresses.length - 1]
+        : JSON.parse(localStorage.getItem("address"));
 
     if (address) {
-      const userAddres = `${address.street} ${address.extNum} ${
-        address.intNum ? address.intNum : ""
+      const userAddres = `${address.street} ${address.extNumber} ${
+        address.intNumber ? address.intNumber : ""
       } ${address.city} ${address.state}`;
       savedAddressText.textContent = `Dirección guardada: ${userAddres}`;
       addressChoiceContainer.classList.remove("d-none");
@@ -129,18 +143,25 @@ document.addEventListener("DOMContentLoaded", () => {
     e.preventDefault();
     const data = {
       street: document.getElementById("street").value,
-      extNum: document.getElementById("ext-number").value,
-      intNum: document.getElementById("int-number").value,
-      zip: document.getElementById("zip").value,
+      extNumber: document.getElementById("ext-number").value,
+      intNumber: document.getElementById("int-number").value,
+      neighborhood: document.getElementById("neighborhood").value,
+      zipCode: document.getElementById("zip").value,
       city: document.getElementById("city").value,
       state: document.getElementById("state").value,
     };
 
+    const user = JSON.parse(localStorage.getItem("user"));
+    user?.addresses.push({
+      ...data,
+      id: user.addresses.length > 0 ? user.addresses[user.addresses.length - 1].id + 1 : 1
+    });
+    localStorage.setItem("user", JSON.stringify(user));
     localStorage.setItem("address", JSON.stringify(data));
 
     showToast("Dirección guardada", "bg-success");
-    const userAddress = `${data.street} ${data.extNum} ${
-      data.intNum ? data.intNum : ""
+    const userAddress = `${data.street} ${data.extNumber} ${
+      data.intNumber ? data.intNumber : ""
     } ${data.city} ${data.state}`;
     savedAddressText.textContent = `Dirección guardada: ${userAddress}`;
     addressChoiceContainer.classList.remove("d-none");
@@ -148,7 +169,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     document.getElementById("use-saved").checked = true;
 
-    fetch("endpoint para actualizar la dirección del usuario", {
+    fetch(`http://3.145.32.20/api/users/${user.id}/address`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data),
@@ -181,3 +202,4 @@ document.addEventListener("DOMContentLoaded", () => {
     window.location.href = "../views/thank-you.html";
   });
 });
+
