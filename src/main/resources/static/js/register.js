@@ -1,11 +1,3 @@
-window.onload = function() {
-    // Desplaza la página al centro vertical
-    window.scrollTo({
-        top: document.body.scrollHeight / 2 - window.innerHeight / 2,
-        behavior: 'auto' // 'smooth' para un efecto suave
-    });
-    
-};
 
 document.addEventListener("DOMContentLoaded", () => {
     const formulario = document.querySelector("form");

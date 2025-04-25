@@ -1,13 +1,11 @@
 package com.threedgarden.api.service;
 
 
-import com.threedgarden.api.dto.CategoryRequest;
-import com.threedgarden.api.dto.CharacteristicsRequest;
-import com.threedgarden.api.dto.InventoryRequest;
-import com.threedgarden.api.dto.OrderRequest;
+import com.threedgarden.api.dto.*;
 import com.threedgarden.api.model.*;
 import com.threedgarden.api.repository.*;
 import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,21 +15,14 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class ProductsService {
     private final ProductsRepository productsRepository;
     private final CharacteristicsRepository characteristicsRepository;
     private final ProductCategoryLinkRepository productCategoryLinkRepository;
     private final InventoryRepository inventoryRepository;
+    private final OrderDetailRepository orderDetailRepository;
 
-    public ProductsService(ProductsRepository productsRepository, CharacteristicsRepository characteristicsRepository, ProductCategoryLinkRepository productCategoryLinkRepository,
-                           InventoryRepository inventoryRepository) {
-        this.productsRepository = productsRepository;
-        this.characteristicsRepository = characteristicsRepository;
-        this.productCategoryLinkRepository = productCategoryLinkRepository;
-        this.inventoryRepository = inventoryRepository;
-    }
-
-    @Autowired
     public List<Products> getAllProducts() {
         return productsRepository.findAll();
     }
@@ -67,6 +58,9 @@ public class ProductsService {
         if(productDetails.getDescription() != null){
             product.setDescription(productDetails.getDescription());
         }
+        if(productDetails.getStock() != null){
+            product.setStock(productDetails.getStock());
+        }
         if(productDetails.getPrice() != null){
             product.setPrice(productDetails.getPrice());
         }
@@ -76,6 +70,7 @@ public class ProductsService {
         return productsRepository.save(product);
     }
 
+    @Transactional
     public Products addCharacteristics(Long id, CharacteristicsRequest characteristicsRequest){
         Products product = productsRepository.findById(id).orElseThrow(
                 ()-> new IllegalArgumentException("El producto con id" + id + " no se encontró")
@@ -135,7 +130,7 @@ public class ProductsService {
         return product;
     }
 
-    public Products addCategorytoProduct(Long id, CategoryRequest categoryRequest){
+    public Products addCategoryToProduct(Long id, CategoryRequest categoryRequest){
         Products newProduct = getProductById(id);
 
         ProductCategoryLink newCategoryLink = new ProductCategoryLink();
@@ -152,18 +147,37 @@ public class ProductsService {
         return newProduct;
     }
 
-    public Products addIventorytoProduct(Long id, InventoryRequest inventoryRequest){
-        Products newProduct = getProductById(id);
+    @Transactional
+    public Products addIventoryToProduct(Long id, InventoryRequest inventoryRequest){
+        Products newProduct = productsRepository.findById(id).orElseThrow(
+                () -> new IllegalArgumentException("El producto con id " + id + " no se encontró")
+        );
 
         Inventory newInventory = new Inventory();
-
         newInventory.setRegistrationDate(inventoryRequest.getRegistrationDate());
         newInventory.setQuantity(inventoryRequest.getQuantity());
         newInventory.setStatus(inventoryRequest.getStatus());
-        newInventory.setProduct(newProduct);
 
+        newInventory.setProduct(newProduct);
         inventoryRepository.save(newInventory);
+
         newProduct.getInventories().add(newInventory);
+        productsRepository.save(newProduct);
+
+        return newProduct;
+    }
+
+    @Transactional
+    public Products addProductToOrderDetails(Long id, OrderDetailRequest orderDetailRequest){
+        Products newProduct = getProductById(id);
+
+        OrderDetail newOrderDetail = new OrderDetail();
+        newOrderDetail.setQuantity(orderDetailRequest.getQuantity());
+        newOrderDetail.setUnitPrice(orderDetailRequest.getUnitPrice());
+        newOrderDetail.setProduct(newProduct);
+
+        orderDetailRepository.save(newOrderDetail);
+        newProduct.getOrderDetails().add(newOrderDetail);
 
         return newProduct;
     }

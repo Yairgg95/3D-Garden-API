@@ -3,7 +3,6 @@ package com.threedgarden.api.service;
 import com.threedgarden.api.model.OrderEntity;
 import com.threedgarden.api.repository.OrderRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,7 +11,7 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class OrderService {
-    @Autowired
+
     private final OrderRepository orderRepository;
     public List<OrderEntity> getAllOrders() {
         return orderRepository.findAll();
