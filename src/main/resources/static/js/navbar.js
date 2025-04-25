@@ -26,6 +26,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
 function logout() {
   const isAdminLoggein = localStorage.getItem("adminToken")
+  localStorage.removeItem("user")
   if (isAdminLoggein) {
     localStorage.removeItem("adminToken")
     window.open("../", "_self")
