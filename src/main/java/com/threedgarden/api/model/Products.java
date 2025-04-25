@@ -26,8 +26,8 @@ public class Products {
     @Column(nullable = false)
     private Long price;
     @Lob
-    @Column(nullable = false)
-    private Byte image;
+    @Column(nullable = false, columnDefinition = "LONGTEXT")
+    private String image;
 
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "characteristics_id", referencedColumnName = "id")
